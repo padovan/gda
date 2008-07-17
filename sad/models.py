@@ -1,23 +1,30 @@
 from django.db import models
 
-
 #FIXME:
 #   1. Será que essa modelagem está correta? Peguntar pra alguém que manje
 # Hanson ou Alan por exemplo. Mas acho que pelo menos essa parte está bem modelada
-#   2. Vejo a possibilidade de criar uma classe Curso (não confunda 
-# com a classe Cursa!). Isso deixa nosso sistema mais genérico.
-#   3. Acho que temos que encontrar outro nome para a classe Cursa.
-# Não tá soando bem. É cursa no sentido de tal aluno cursa tal disciplina
+#   2. Vejo a possibilidade de criar uma classe Curso. Isso deixa nosso 
+# sistema mais genérico.
 #   4. Vamos passar todos os nomes de campos e classes para o inglês?
 
 #  Último: Alguém pode pedir pra invetarem comentário em bloco :-(
 
 
+class Curso(models.Model):
+    codigo = models.IntegerField(primary_key=True)
+    nome = models.CharField(maxlength=256)
+
+    def __str__(self):
+        return self.nome
+
+    class Admin:
+        list_display = ['codigo','nome']
+
 class Aluno(models.Model):
     RA = models.CharField(maxlength=6, primary_key=True)
     nome = models.CharField(maxlength=256)
     email = models.EmailField()
-    # vai ser  uma 
+    #curso = models.ForeignKey(Curso)
     curso = models.CharField(maxlength=2)
     password = models.CharField(maxlength=256)
 
@@ -41,7 +48,7 @@ class Professor(models.Model):
     #FIXME: adicionar mais campos aqui
     # professor poderá ter login?
     # informações como instituto?
-    # Ahh.. como eu queria comentário em bloco no python :-)
+    # Ahh.. como eu queria comentário em bloco no python
     nome = models.CharField(maxlength=256)
 
     def __str__(self):
@@ -54,6 +61,7 @@ class Professor(models.Model):
 class Disciplina(models.Model):
     sigla = models.CharField(maxlength=6, primary_key=True)
     nome = models.CharField(maxlength=256)
+    # FIXME: campo quest_id vai onde?
 
     def __str__(self):
         return self.sigla
@@ -67,9 +75,8 @@ class Atribuicao(models.Model):
     disciplina = models.ForeignKey(Disciplina)
     professor = models.ForeignKey(Professor)
     turma = models.CharField(maxlength=1)
-    #FIXME: criar esses dois campos
+    #FIXME: criar campo periodo?
     #periodo = models.
-    #questionario = models.ForeignKey
     def __str__(self):
         return self.disciplina.sigla + self.turma
 
@@ -80,9 +87,7 @@ class Atribuicao(models.Model):
         #list_filter = ['disciplina']
         search_fields = ('disciplina')
 
-#FIXME: essa tabela ( classe ) tem nome estranho. Não consegui pensar em 
-# nada melhor. Ma fica a dica! ;-)
-class Cursa(models.Model):
+class DiscTurma(models.Model):
     aluno = models.ForeignKey(Aluno)
     disc_turma = models.ForeignKey(Atribuicao)
     
@@ -93,4 +98,46 @@ class Cursa(models.Model):
         #FIXME: não cheguei a pensar essa parte
         pass
 
-    
+
+class Questionario(models.Model):
+    tipo = models.CharField(maxlength=128)
+    texto = models.CharField(maxlength=1024, blank = True)
+
+    def __str__(self):
+        return self.tipo
+
+    class Admin:
+        pass
+
+class Pergunta(models.Model):
+    tipo = models.PositiveSmallIntegerField()
+    texto = models.CharField(maxlength=1024)
+    quest = models.ForeignKey(Questionario)
+
+    def __str__(self):
+        return self.texto
+
+    class Admin:
+        pass
+
+
+class Alternativa(models.Model):
+    texto = models.CharField(maxlength=512)
+    pergunta_id = models.ForeignKey(Pergunta)
+
+    def __str__(self):
+        return self.texto
+
+    class Admin:
+        pass
+
+class Resposta(models.Model):
+    texto = models.CharField(maxlength=1024)
+    perg = models.ForeignKey(Pergunta)
+    altern = models.ForeignKey(Alternativa)
+
+    #FIXME: devemor guardar aqui e/ou na pergunta se é alternativa ou não?
+
+    class Admin:
+        pass
+
