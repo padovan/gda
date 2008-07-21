@@ -6,31 +6,31 @@ import sys, os
 import mechanize
 import urllib2
 from time import sleep
-from caco.sad.models import Disciplina, Professor, Atribuicao, Aluno, Cursa
+from caco.sad.models import Disciplina, Professor, Atribuicao, Aluno, DiscTurma
 
 # TODO: 1. melhorar as espressões regulares
-#       2. Em vez de pegar o dados de alunos matriculados direto do site da 
-#   DAC. Baixar o arquivo que disponibilizado, e convertê-lo para uft8
 
 DRE_ALL_DISC = '<a href=".*.htm">(?P<disc_id>[A-Z][A-Z ][0-9]{3,3})(?P<disc_nome>.*)  '
 
 #var token = "319afb0f735e9927e685b7f048e9394d"; (exemplo)
-DRE_TOKEN = 'var token = "((?P<token>[0-9a-f]*))";'
+DRE_TOKEN = 'var token = "((?P<token>[0-9a-f]{32,32}))";'
 DRE_TURMAS = '<tr height="18">[\\t\\n ]*<td height="18" bgcolor="white" width="100" align="center" class="corpo">(?P<turma>[A-Z1-9#])</td>'
+DRE_FILE = '(?P<site>https://www\.daconline\.unicamp\.br/altmatr/fileDownloadPublico\.do)'
 DRE_ALUNO = '(?P<ra>[0-9]{5,7})[ ]*\\t(?P<nome>.*)[ ]*\\t(?P<curso>[0-9][0-9])\\t(?P<nivel>[A-Z])'
 DRE_PROF = 'Docente: (?P<docente>.*)\\r\\n'
 
 
+
 # O instituto será fornecido no futuro via inteface administrativa do django
 # por ora temos
-INSTITUTO='IEL'
+INSTITUTO='IC'
 SEMGRAD=['1']
 SEMPOS=['-1']
 NIVEL='G'
 ANO=['2008']
 
 if NIVEL == 'G':
-    SITE_HOR = "wget http://www.dac.unicamp.br/sistemas/horarios/grad/G" \
+    SITE_HOR = "http://www.dac.unicamp.br/sistemas/horarios/grad/G" \
     + SEMGRAD[0] + "S0/"+  INSTITUTO + ".htm"
 else:
     SITE_HOR = "wget http://www.dac.unicamp.br/sistemas/horarios/pos/P" \
@@ -43,8 +43,7 @@ def all_disc():
     
     # FIXME: Fiz uma pequena gambiarra para pode pegar os dados em utf-8
     # Troquei o código abaixo pelo wget da página e um iconv
-    #s_disc = urllib2.urlopen("http://www.dac.unicamp.br/sistemas/horarios/grad/G" \
-    #       + SEMESTRE + "S0/"+  INSTITUTO + ".htm").read().decode('utf-8')
+    #s_disc = urllib2.urlopen(SITE_HOR).read().encode('iso8859-1').decode('utf-8')
 
     # Aqui começa a gambiarra
     os.system("wget " + SITE_HOR + " > /dev/null")
@@ -68,11 +67,12 @@ def all_disc():
 
 
 def get_matriculados(txtDisciplina):
+
     mech = mechanize.Browser()
     mech.set_handle_robots(False)
 
     r = mech.open("http://www.daconline.unicamp.br/altmatr/menupublico.do")
-    # encontra o token (hash dinamico para acesso)
+# encontra o token (hash dinamico para acesso)
     site = r.read()
     dtoken = re.compile(DRE_TOKEN)
     m = re.search(dtoken, site)
@@ -97,8 +97,6 @@ def get_matriculados(txtDisciplina):
     turma = re.findall(dturma, site)
 
     for t in turma:
-        sleep(5)
-        print "Processando %s%s" % (txtDisciplina, t)
         res2 = mech.open("http://www.daconline.unicamp.br/altmatr/conspub_matriculadospordisciplinaturma.do?org.apache.struts.taglib.html.TOKEN=" + token + "&txtDisciplina=9&txtTurma=a&cboSubG=" + SEMGRAD[0] + "&cboSubP=-1")
 
         mech.select_form("FormSelecionarNivelPeriodoDisciplina")
@@ -108,10 +106,19 @@ def get_matriculados(txtDisciplina):
         mech["txtDisciplina"] = txtDisciplina
         mech["txtTurma"] = t
         res3 = mech.submit()
-        # comentei isso para fazer o iconv
-        #s_turma = res3.read()
 
-        # salva o arquivo, faz um iconv e abre de novo
+        # verifica se a turma tem alunos, isto é,
+        # se está disponivel o link DRE_FILE no site.
+        s_file = res3.read()
+        d_file = re.compile(DRE_FILE)
+        m = re.search(d_file, s_file)
+        if m is None:
+            continue
+
+        print "Processando %s%s" % (txtDisciplina, t)
+
+        # salva o arquivo com os dados da turma,
+        # faz um iconv e abre de novo
         j = mech.open("https://www.daconline.unicamp.br/altmatr/fileDownloadPublico.do")
         f = open(txtDisciplina + t + ".ascii", 'w')
         f.write(j.read()) 
@@ -126,6 +133,7 @@ def get_matriculados(txtDisciplina):
 
         dprof = re.compile(DRE_PROF)
         m = re.search(dprof, s_turma)
+        
 
         # inclui o docente no BD
         s = Professor.objects.filter(nome=m.group('docente')) 
@@ -142,9 +150,14 @@ def get_matriculados(txtDisciplina):
         for i in alunos:
             x = Aluno(RA=i[0], nome= i[1], curso= i[2])
             x.save()
-            Cursa(aluno=x, disc_turma = at).save()
+            DiscTurma(aluno=x, disc_turma = at).save()
 
-ld = all_disc()
-for d in ld:
-    get_matriculados(d)
+
+
+# main ()
+#ld = all_disc()
+#for d in ld:
+#    get_matriculados(d)
+get_matriculados('MC548')
+print "Done."
 
