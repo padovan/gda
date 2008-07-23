@@ -1,13 +1,9 @@
 from django.db import models
+import time
 
-#FIXME:
-#   1. Será que essa modelagem está correta? Peguntar pra alguém que manje
-# Hanson ou Alan por exemplo. Mas acho que pelo menos essa parte está bem modelada
-#   2. Vejo a possibilidade de criar uma classe Curso. Isso deixa nosso 
-# sistema mais genérico.
-#   4. Vamos passar todos os nomes de campos e classes para o inglês?
-
-#  Último: Alguém pode pedir pra invetarem comentário em bloco :-(
+'''#FIXME:
+   1. Vamos passar todos os nomes de campos e classes para o inglês?
+'''
 
 
 class Curso(models.Model):
@@ -19,14 +15,19 @@ class Curso(models.Model):
 
     class Admin:
         list_display = ['codigo','nome']
+        ordering = ['nome']
+
+    class Meta:
+        ordering = ['nome']
 
 class Aluno(models.Model):
     RA = models.CharField(maxlength=6, primary_key=True)
     nome = models.CharField(maxlength=256)
     email = models.EmailField()
+    # FIXME: habilitar o curso aqui:
     #curso = models.ForeignKey(Curso)
     curso = models.CharField(maxlength=2)
-    password = models.CharField(maxlength=256)
+    senha = models.CharField(maxlength=256)
 
     def __str__(self):
         return self.RA
@@ -35,20 +36,15 @@ class Aluno(models.Model):
         fields = (
                 ('', {'fields': ('RA', 'nome', 'email', 'curso',)}),
         )
-        #FIXME: fazer campo de select no curso (talvez uma tabela curso)
-        # ou ainda deixar o campo com maior flexibilidade para
-        # facilitar o uso do GDA por outras pessoas 
         list_display = ('RA', 'nome', 'email', 'curso')
         list_filter = ['curso']
-        #FIXME: fazer busca por RA também
-        search_fields = ('nome')
+        search_fields = ('nome', 'RA')
 
 
 class Professor(models.Model):
     #FIXME: adicionar mais campos aqui
     # professor poderá ter login?
     # informações como instituto?
-    # Ahh.. como eu queria comentário em bloco no python
     nome = models.CharField(maxlength=256)
 
     def __str__(self):
@@ -56,47 +52,6 @@ class Professor(models.Model):
 
     class Admin:
         search_fields = ('nome')
-
-
-class Disciplina(models.Model):
-    sigla = models.CharField(maxlength=6, primary_key=True)
-    nome = models.CharField(maxlength=256)
-    # FIXME: campo quest_id vai onde?
-
-    def __str__(self):
-        return self.sigla
-
-    class Admin:
-        list_display = ('sigla','nome')
-        # FIXME: fazer buscar por sigla ou por nome
-        search_fields = ('sigla')
-
-class Atribuicao(models.Model):
-    disciplina = models.ForeignKey(Disciplina)
-    professor = models.ForeignKey(Professor)
-    turma = models.CharField(maxlength=1)
-    #FIXME: criar campo periodo?
-    #periodo = models.
-    def __str__(self):
-        return self.disciplina.sigla + self.turma
-
-    class Admin:
-        list_display = ('disciplina','professor', 'turma')
-        # FIXME: Fazer filtragem por disciplina e professor
-        # não funciona por que é chave estrangeira
-        #list_filter = ['disciplina']
-        search_fields = ('disciplina')
-
-class DiscTurma(models.Model):
-    aluno = models.ForeignKey(Aluno)
-    disc_turma = models.ForeignKey(Atribuicao)
-    
-    #def __str__(self):
-    # FIXME: o que retornar aqui
-
-    class Admin:
-        #FIXME: não cheguei a pensar essa parte
-        pass
 
 
 class Questionario(models.Model):
@@ -107,23 +62,69 @@ class Questionario(models.Model):
         return self.tipo
 
     class Admin:
-        pass
+        list_display = ('tipo', 'texto')
+        list_filter = ['tipo']
+        search_fields = ('texto')
+
+
+class Disciplina(models.Model):
+    sigla = models.CharField(maxlength=6, primary_key=True)
+    nome = models.CharField(maxlength=256)
+    questionario = models.ForeignKey(Questionario)
+
+    def __str__(self):
+        return self.sigla
+
+    class Admin:
+        list_display = ('sigla','nome')
+        # FIXME: fazer buscar por sigla ou por nome
+        search_fields = ('sigla')
+
+class Atribuicao(models.Model):
+    SEMESTRE_CH = (
+        (1, 'Primeiro'),
+        (2, 'Segundo'),
+    )
+    disciplina = models.ForeignKey(Disciplina)
+    professor = models.ForeignKey(Professor)
+    turma = models.CharField(maxlength=1)
+    aluno = models.ManyToManyField(Aluno)
+    semestre = models.PositiveSmallIntegerField(maxlength=1, choices=SEMESTRE_CH)
+    ano = models.PositiveSmallIntegerField(default=time.strftime("%Y", time.localtime()))
+
+
+    def __str__(self):
+        return self.disciplina.sigla + self.turma
+
+    class Admin:
+        list_display = ('disciplina','professor', 'turma')
+        list_filter = ['disciplina']
+        search_fields = ('disciplina')
+
 
 class Pergunta(models.Model):
-    tipo = models.PositiveSmallIntegerField()
+    TIPO_CH = (
+        ('A', 'Alternativa'),
+        ('D', 'Dissertativa'),
+    )
     texto = models.CharField(maxlength=1024)
-    quest = models.ForeignKey(Questionario)
+    tipo = models.CharField(maxlength=1, choices=TIPO_CH)
+    questionario = models.ManyToManyField(Questionario, verbose_name = "Questionário(s)")
 
     def __str__(self):
         return self.texto
 
     class Admin:
-        pass
+        fields = (
+                ('',{'fields': ('texto', 'tipo', 'questionario',)}),
+        )
+        search_fields = ['texto']
+        list_filter = ['tipo']
 
 
 class Alternativa(models.Model):
     texto = models.CharField(maxlength=512)
-    pergunta_id = models.ForeignKey(Pergunta)
+    pergunta = models.ForeignKey(Pergunta)
 
     def __str__(self):
         return self.texto
@@ -131,12 +132,14 @@ class Alternativa(models.Model):
     class Admin:
         pass
 
+
 class Resposta(models.Model):
     texto = models.CharField(maxlength=1024)
-    perg = models.ForeignKey(Pergunta)
-    altern = models.ForeignKey(Alternativa)
+    pergunta = models.ForeignKey(Pergunta)
+    alternativa = models.ForeignKey(Alternativa)
 
-    #FIXME: devemor guardar aqui e/ou na pergunta se é alternativa ou não?
+    def __str__(self):
+        return self.texto
 
     class Admin:
         pass
