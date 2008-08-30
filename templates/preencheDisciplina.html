@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block subtitle %}Preenchimento de Disciplinas{% endblock %}
+
+{% block content %}
+<form method='GET' action='salva/{{ sigla}}/'>
+<table>
+	<thead>
+		<tr>
+			<td colspan="2"><h2>{{ sigla }} - {{ nome }}</h2></td>
+		</tr>
+	</thead>
+	{% for p in perguntas %}
+	<tr>
+		<td><b> {{ p.pergunta }}</b></td>
+		<td>
+		{% if p.alternativas %}<!-- Alternativa -->
+			{% for a in p.alternativas %}
+				<input type='radio' name='p{{ p.id }}' value='{{ a.id }}'> {{ a.texto }}
+			{% endfor %}
+		{% else %}<!-- Dissertativa -->
+			<textarea cols='40' rows='5' name='p{{ p.id }}'></textarea>
+		{% endif %}
+		</td>
+	</tr>
+	{% endfor %}
+	<thead>
+		<tr>
+			<td colspan="2"><b>
+				<input type='submit' value='Enviar'>
+			</td>
+		</tr>
+	</thead>
+</table>
+</form>
+
+{% endblock %}

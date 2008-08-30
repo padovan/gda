@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block subtitle %}Sele&ccedil;&atilde;o de Disciplinas{% endblock %}
+
+{% block content %}
+Selecione uma disciplina:
+<table>
+	<tr>
+		<td>&nbsp;</td>
+		<td><b>Sigla</b></td>
+		<td><b>Nome</b></td>
+	</tr>
+	{% for disc in disciplinas %}
+	<tr>
+		<td>#{{ forloop.counter }}</td>
+		<td><a href="preenche/{{ disc }}">{{ disc.sigla }}</a></td>
+		<td><a href="preenche/{{ disc }}">{{ disc.nome }}</a></td>
+	</tr>
+	{% endfor %}
+</table>
+
+{% endblock %}
