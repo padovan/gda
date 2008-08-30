@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.db import models
 import time
 
@@ -7,7 +9,8 @@ import time
 
 
 class Curso(models.Model):
-    codigo = models.IntegerField(primary_key=True)
+    #codigo = models.IntegerField(primary_key=True)
+    codigo = models.IntegerField()
     nome = models.CharField(maxlength=256)
 
     def __str__(self):
@@ -24,9 +27,7 @@ class Aluno(models.Model):
     RA = models.CharField(maxlength=6, primary_key=True)
     nome = models.CharField(maxlength=256)
     email = models.EmailField()
-    # FIXME: habilitar o curso aqui:
-    #curso = models.ForeignKey(Curso)
-    curso = models.CharField(maxlength=2)
+    curso = models.ForeignKey(Curso)
     senha = models.CharField(maxlength=256)
 
     def __str__(self):
@@ -88,7 +89,7 @@ class Atribuicao(models.Model):
     disciplina = models.ForeignKey(Disciplina)
     professor = models.ForeignKey(Professor)
     turma = models.CharField(maxlength=1)
-    aluno = models.ManyToManyField(Aluno)
+    aluno = models.ManyToManyField(Aluno, verbose_name = "Aluno(s)")
     semestre = models.PositiveSmallIntegerField(maxlength=1, choices=SEMESTRE_CH)
     ano = models.PositiveSmallIntegerField(default=time.strftime("%Y", time.localtime()))
 
