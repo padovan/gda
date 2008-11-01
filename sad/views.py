@@ -82,14 +82,15 @@ def commit_answer_course(request, ano, semestre, disciplina):
         for resp in request.GET:
             if resp.startswith('pa'):  # alternativas
                 p_id = resp.replace('pa','')
-                perg = models.Pergunta.objects.filter(id=p_id)[0]
-                r = models.Resposta(pergunta=perg, alternativa=request.GET[resp], semestre=dbSemester(semestre,ano))
-                r.save()
+                text = None
+                alter = request.GET[resp]
             else:  # dissertativa
                 p_id = resp.replace('pd','')
-                perg = models.Pergunta.objects.filter(id=p_id)[0]
-                r = models.Resposta(pergunta=perg, texto=request.GET[resp], semestre=dbSemester(semestre,ano))
-                r.save()
+                text = request.GET[resp]
+                alter = None
+            perg = models.Pergunta.objects.filter(id=p_id)[0]
+            r = models.Resposta(pergunta=perg, texto=text, alternativa=alter, semestre=dbSemester(semestre,ano))
+            r.save()
         return render_to_response('sad/all_to_answer.html', 
                               { 'ano': ano , 
                                 'semestre': semestre ,
