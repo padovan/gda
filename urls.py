@@ -22,4 +22,5 @@ urlpatterns = patterns('',
                        (r'^[Ii][Cc]/(?P<ano>\d+)[sS](?P<semestre>\d)/(?P<disciplina>[A-Z][A-Z]\d+)/answer/$', views.answer_course),
                        (r'^[Ii][Cc]/(?P<ano>\d+)[sS](?P<semestre>\d)/(?P<disciplina>[A-Z][A-Z]\d+)/commit/$', views.commit_answer_course),
                        (r'^(?P<path>.*\.css)$', 'django.views.static.serve', {'document_root': 'templates/css/' }),
+                       (r'^(?P<path>.*\.(jpg|png|gif))$', 'django.views.static.serve', {'document_root': 'templates/img/' }),
                        )
