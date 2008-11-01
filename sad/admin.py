@@ -1,13 +1,72 @@
-from caco.sad.models import *
+from caco.sad.models import Professor,Questionario,Curso,Aluno,Atribuicao,Disciplina,Pergunta
 from django.contrib import admin
 
-admin.site.register(Curso)
-admin.site.register(Aluno)
-admin.site.register(Professor)
-admin.site.register(Disciplina)
-admin.site.register(Atribuicao)
-admin.site.register(Questionario)
-admin.site.register(Pergunta)
-admin.site.register(Resposta)
-admin.site.register(Alternativa)
+class ProfessorAdmin(admin.ModelAdmin):
+    list_display = ('nome',)
+    search_fields = ['nome']
+
+class QuestionarioAdmin(admin.ModelAdmin):
+    list_display = ('tipo', 'texto')
+    list_filter = ['tipo']
+    search_fields = ('texto',)
+
+class CursoAdmin(admin.ModelAdmin):
+    list_display = ['codigo','nome']
+    ordering = ['nome']
+
+class AlunoAdmin(admin.ModelAdmin):
+    list_display = ('RA','nome','email', 'curso',)
+    list_filter = ['curso']
+    search_fields = ['RA', 'nome', 'email']
+
+class DisciplinaAdmin(admin.ModelAdmin):
+    list_display = ('sigla', 'nome')
+    search_fields = ['sigla', 'nome']
+
+class AtribuicaoAdmin(admin.ModelAdmin):
+    list_display = ('disciplina','professor', 'turma')
+    list_filter = ['disciplina']
+    search_fields = ['disciplina'] 
+    
+
+class PerguntaAdmin(admin.ModelAdmin):
+    fields = (
+        ('',{'fields': ('texto', 'tipo', 'questionario',)}),
+        )
+    search_fields = ['texto']
+    list_filter = ['tipo']
+    
+class AlternativaAdmin(admin.ModelAdmin):
+    pass
+
+class RespostaAdmin(admin.ModelAdmin):
+    pass
+
+
+#class GenreAdmin(admin.ModelAdmin):
+#    list_display = ('name',)
+#
+#class MovieAdmin(admin.ModelAdmin):
+#    fieldsets = [('General Info',      {'fields': ['title','title_br','pub_date', 'imdb']}),
+#                 ('Plot',    {'fields': ['plot'], 'classes': ['collapse']}),
+#                 ('Crew',    {'fields': ['cast', 'director']}),
+#                 ('Genres',  {'fields': ['genres']}),
+#                 ('Quality', {'fields': ['height', 'width']}),
+#                 ('Path',    {'fields': ['path', 'owner']}),
+#                 ]
+#    list_display = ('title', 'title_br', 'year',)
+#    list_filter = ['pub_date',]
+#    search_fields = ['title', 'title_br']
+#    date_hierarchy = 'pub_date'
+
+
+#admin.site.register(Curso, CursoAdmin)
+#admin.site.register(Aluno, AlunoAdmin)
+#admin.site.register(Professor, ProfessorAdmin)
+#admin.site.register(Disciplina, DisciplinaAdmin)
+#admin.site.register(Atribuicao, AtribuicaoAdmin)
+#admin.site.register(Questionario, QuestionarioAdmin)
+#admin.site.register(Pergunta, PerguntaAdmin)
+#admin.site.register(Resposta)
+#admin.site.register(Alternativa)
 

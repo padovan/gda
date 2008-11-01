@@ -1,12 +1,20 @@
 {% extends 'sad/base.html' %}
 {% block content %}
-	{% if semesters %}
-		<ul id="semesters">
-		{% for s in semesters %}
-		<li {% ifequal s current_semester %}class="current_semester"{% endifequal %}>{{ s }}</li>
-		{% endfor %}
-		</ul>
-	{% else %}
-		<p>No polls are available for this year.</p>
-	{% endif %}
+	<div class="post">
+		<div class="title">
+			<h2>Semestres indexados</h2>
+			<p><small>semestres que foram ou estão sendo avaliados pelo GDA<small></p>
+		</div>
+		<div class="entry">
+		{% if semesters %}
+			<ul id="semesters">
+			{% for s in semesters %}
+			<li {% ifequal s current_semester %}class="current_semester"{% endifequal %}>{{ s }}</li>
+			{% endfor %}
+			</ul>
+		{% else %}
+			<p>No polls are available for this year.</p>
+		{% endif %}
+		</div>
+	</div>
 {% endblock %}

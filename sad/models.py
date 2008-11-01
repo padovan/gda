@@ -14,12 +14,12 @@ class Curso(models.Model):
     def __unicode__(self):
         return self.nome
 
-    class Admin:
-        list_display = ['codigo','nome']
-        ordering = ['nome']
-
-    class Meta:
-        ordering = ['nome']
+#    class Admin:
+#        list_display = ['codigo','nome']
+#        ordering = ['nome']
+#
+#    class Meta:
+#        ordering = ['nome']
 
 class Aluno(models.Model):
     RA = models.CharField(max_length=6, primary_key=True)
@@ -33,13 +33,13 @@ class Aluno(models.Model):
     def __unicode__(self):
         return self.RA
 
-    class Admin:
-        fields = (
-                ('', {'fields': ('RA', 'nome', 'email', 'curso',)}),
-        )
-        list_display = ('RA', 'nome', 'email', 'curso')
-        list_filter = ['curso']
-        search_fields = ('nome', 'RA')
+#    class Admin:
+#        fields = (
+#                ('', {'fields': ('RA', 'nome', 'email', 'curso',)}),
+#        )
+#        list_display = ('RA', 'nome', 'email', 'curso')
+#        list_filter = ['curso']
+#        search_fields = ('nome', 'RA')
 
 
 class Professor(models.Model):
@@ -51,8 +51,8 @@ class Professor(models.Model):
     def __unicode__(self):
         return self.nome
 
-    class Admin:
-        search_fields = ('nome')
+#    class Admin:
+#        search_fields = ('nome')
 
 
 class Questionario(models.Model):
@@ -63,10 +63,10 @@ class Questionario(models.Model):
     def __unicode__(self):
         return self.tipo
 
-    class Admin:
-        list_display = ('tipo', 'texto')
-        list_filter = ['tipo']
-        search_fields = ('texto')
+#    class Admin:
+#        list_display = ('tipo', 'texto')
+#        list_filter = ['tipo']
+#        search_fields = ('texto')
 
 
 class Disciplina(models.Model):
@@ -78,10 +78,10 @@ class Disciplina(models.Model):
     def __unicode__(self):
         return self.sigla
 
-    class Admin:
-        list_display = ('sigla','nome')
-        # FIXME: fazer buscar por sigla ou por nome
-        search_fields = ('sigla')
+#    class Admin:
+#        list_display = ('sigla','nome')
+#        # FIXME: fazer buscar por sigla ou por nome
+#        search_fields = ('sigla')
 
 class Atribuicao(models.Model):
     disciplina = models.ForeignKey(Disciplina)
@@ -95,10 +95,10 @@ class Atribuicao(models.Model):
     def __unicode__(self):
         return self.disciplina.sigla + self.turma
 
-    class Admin:
-        list_display = ('disciplina','professor', 'turma')
-        list_filter = ['disciplina']
-        search_fields = ('disciplina')
+#    class Admin:
+#        list_display = ('disciplina','professor', 'turma')
+#        list_filter = ['disciplina']
+#        search_fields = ('disciplina')
 
 
 class Pergunta(models.Model):
@@ -113,12 +113,12 @@ class Pergunta(models.Model):
     def __unicode__(self):
         return self.texto
 
-    class Admin:
-        fields = (
-                ('',{'fields': ('texto', 'tipo', 'questionario',)}),
-        )
-        search_fields = ['texto']
-        list_filter = ['tipo']
+#    class Admin:
+#        fields = (
+#                ('',{'fields': ('texto', 'tipo', 'questionario',)}),
+#        )
+#        search_fields = ['texto']
+#        list_filter = ['tipo']
 
 
 class Alternativa(models.Model):
@@ -128,18 +128,19 @@ class Alternativa(models.Model):
     def __unicode__(self):
         return self.texto
 
-    class Admin:
-        pass
+#    class Admin:
+#        pass
 
 
 class Resposta(models.Model):
-    texto = models.CharField(max_length=1024)
+	# Tem que ser o texto ou alternativa
+    texto = models.CharField(max_length=1024, null=True)
     pergunta = models.ForeignKey(Pergunta)
-    alternativa = models.ForeignKey(Alternativa)
+    alternativa = models.ForeignKey(Alternativa, null=True)
     semestre = models.DateField()
 
     def __unicode__(self):
         return self.texto
 
-    class Admin:
-        pass
+#    class Admin:
+#        pass
