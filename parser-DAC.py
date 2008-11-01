@@ -112,7 +112,6 @@ def get_matriculados(txtDisciplina):
         # verifica se a turma tem alunos, isto é,
         # se está disponivel o link DRE_FILE no site.
         s_file = res3.read()
-        print s_file
         d_file = re.compile(DRE_FILE)
         m = re.search(d_file, s_file)
         if m is None:
@@ -160,7 +159,6 @@ def get_matriculados(txtDisciplina):
 
 #main()
 ld = all_disc()
-print "Disciplinas [OK]"
 for d in ld:
     get_matriculados(d)
 print "Done."
