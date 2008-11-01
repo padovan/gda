@@ -1,0 +1,19 @@
+<html>
+<body>
+
+{% if answered %}
+<p>Obrigado por responder</p>
+{% endif %}
+
+{% if disciplinas %}
+    <ul>
+        {% for disciplina in disciplinas %}
+        <li><a href="/IC/{{ano}}s{{semestre}}/{{disciplina}}/answer/">{{ disciplina }}</a></li>
+        {% endfor %}
+    </ul>x
+{% else %}
+    <p>No questions are available for this year.</p>
+{% endif %}
+
+</body>
+</html>

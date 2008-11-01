@@ -1,0 +1,21 @@
+<html>
+<body>
+
+<p>{{ ano }}</p>
+
+<p>{{ semestre }}</p>
+
+<p>{{ disciplina }}</p>
+
+{% if answers %}
+    <ul>
+    {% for answer in answers  %}
+        <li>{{ answer }}</li>
+    {% endfor %}
+    </ul>x
+{% else %}
+    <p>No answers are available for this year.</p>
+{% endif %}
+
+</body>
+</html>

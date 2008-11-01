@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt_BR">
+<head>
+   <title>{% block title %}Sistema de Avalia&ccedil;&atilde;o Discente - CACO{% endblock %} - {% block subtitle %}{% endblock %}</title>
+	<link href="/default.css" rel="stylesheet" type="text/css" media="screen" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+<body>
+
+<!-- start header -->
+<div id="wrapper">
+<div id="header">
+    <div id="logo">
+        <h1><a href="#">GDA - Guia Discente de Avalia&ccedil;&atilde;o</a></h1>
+    </div>
+</div>
+<!-- end header -->
+
+<!-- start page -->
+<div id="page">
+    <!-- start content -->
+    <div id="content">
+    {% block content %}{% endblock %}
+    </div>
+    <!-- end content -->
+</div>
+<!-- end page -->
+
+<!-- start footer -->
+<div id="footer">
+    {% block footer %}
+    <hr>
+    {% endblock %}
+	<p class="legal">
+		2008 <a href="#">CACo</a>
+		&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+		Design by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a>
+</div>
+<!-- end footer -->
+</body>
+</html>
+
