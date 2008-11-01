@@ -22,20 +22,6 @@ DRE_PROF = 'Docente: (?P<docente>.*)\\r\\n'
 
 
 
-# O instituto será fornecido no futuro via inteface administrativa do django
-# por ora temos
-INSTITUTO='IC'
-SEMGRAD=['1']
-SEMPOS=['-1']
-NIVEL='G'
-ANO=['2008']
-
-if NIVEL == 'G':
-    SITE_HOR = "http://www.dac.unicamp.br/sistemas/horarios/grad/G" \
-    + SEMGRAD[0] + "S0/"+  INSTITUTO + ".htm"
-else:
-    SITE_HOR = "wget http://www.dac.unicamp.br/sistemas/horarios/pos/P" \
-    + SEMPOS[0] + "S/"+  INSTITUTO + ".htm"
 
 
 # primeira parte: Discubrir as disciplinas de um dado semestre
@@ -158,7 +144,27 @@ def get_matriculados(txtDisciplina):
 
 
 #main()
+# O instituto será fornecido no futuro via inteface administrativa do django.
+# Por enquanto temos:
+
+INSTITUTO='IC'
+SEMGRAD=['1']
+SEMPOS=['-1']
+ANO=['2008']
+
+NIVEL = 'G':
+SITE_HOR = "http://www.dac.unicamp.br/sistemas/horarios/grad/G" \
+    + SEMGRAD[0] + "S0/"+  INSTITUTO + ".htm"
+  
 ld = all_disc()
+  
+SEMGRAD=['-1']
+SEMPOS=['1']
+  SITE_HOR = "wget http://www.dac.unicamp.br/sistemas/horarios/pos/P" \
+    + SEMPOS[0] + "S/"+  INSTITUTO + ".htm"
+
+
+
 for d in ld:
     get_matriculados(d)
 print "Done."
