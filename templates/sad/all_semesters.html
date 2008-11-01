@@ -1,9 +1,9 @@
 {% extends 'sad/base.html' %}
 {% block content %}
 	{% if semesters %}
-		<ul>
+		<ul id="semesters">
 		{% for s in semesters %}
-			<li>{{ s }}</li>
+		<li {% ifequal s current_semester %}class="current_semester"{% endifequal %}>{{ s }}</li>
 		{% endfor %}
 		</ul>
 	{% else %}
