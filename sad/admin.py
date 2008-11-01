@@ -4,6 +4,7 @@ from django.contrib import admin
 class ProfessorAdmin(admin.ModelAdmin):
     list_display = ('nome',)
     search_fields = ['nome']
+    ordering = ['nome']
 
 class QuestionarioAdmin(admin.ModelAdmin):
     list_display = ('tipo', 'texto')
@@ -18,6 +19,7 @@ class AlunoAdmin(admin.ModelAdmin):
     list_display = ('RA','nome','email', 'curso',)
     list_filter = ['curso']
     search_fields = ['RA', 'nome', 'email']
+    ordering = ['RA']
 
 class DisciplinaAdmin(admin.ModelAdmin):
     list_display = ('sigla', 'nome')
@@ -25,8 +27,8 @@ class DisciplinaAdmin(admin.ModelAdmin):
 
 class AtribuicaoAdmin(admin.ModelAdmin):
     list_display = ('disciplina','professor', 'turma')
-    list_filter = ['disciplina']
-    search_fields = ['disciplina'] 
+    list_filter = ['disciplina', 'semestre', 'professor']
+    search_fields = ['disciplina', ] 
     
 
 class PerguntaAdmin(admin.ModelAdmin):
