@@ -1,28 +1,22 @@
 {% extends 'sad/base.html' %}
 {% block content %}
-	<h1>{{ disciplina }}</h1>
-	<form method='GET' action='/IC/{{ano}}s{{semestre}}/{{disciplina}}/commit/'>
-	{% for p in perguntas %}
-		<tr>
-			<td><b> {{ p.pergunta }}</b></td>
-			<td>
-			{% if p.alternativas %}<!-- Alternativa -->
-				{% for a in p.alternativas %}
-					<input type='radio' name='pa{{ p.id }}' value='{{ a.id }}'> {{ a.texto }}
-				{% endfor %}
-			{% else %}<!-- Dissertativa -->
-				<textarea cols='40' rows='5' name='pd{{ p.id }}'></textarea>
-			{% endif %}
-			</td>
-		</tr>
-	{% endfor %}
-		<thead>
-			<tr>
-				<td colspan="2"><b>
-					<input type='submit' value='Enviar'>
-				</td>
-			</tr>
-		</thead>
-	</table>
-	</form>
+    <h1>{{ disciplina }}</h1>
+    <form method='GET' action='/IC/{{ano}}s{{semestre}}/{{disciplina}}/commit/'>
+        {% for p in perguntas %}
+            <div class="entry">
+                <p><b> {{ p.pergunta }}</b></p>
+                {% if p.alternativas %}<!-- Alternativa -->
+                    {% for a in p.alternativas %}
+                        <input type='radio' name='pa{{ p.id }}' value='{{ a.id }}'> {{ a.texto }}
+                    {% endfor %}
+                {% else %}<!-- Dissertativa -->
+                    <textarea cols='40' rows='3' name='pd{{ p.id }}'></textarea>
+                    {% endif %}
+                <br>&nbsp;
+                <p class="post"></p>
+        </div>
+    {% endfor %}
+        <input type='submit' value='Enviar'>
+    </form>
+    <br>&nbsp;
 {% endblock %}

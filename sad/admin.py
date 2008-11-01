@@ -1,4 +1,4 @@
-from caco.sad.models import Professor,Questionario,Curso,Aluno,Atribuicao,Disciplina,Pergunta
+from caco.sad.models import Professor,Questionario,Curso,Aluno,Atribuicao,Disciplina,Pergunta,Alternativa,Resposta
 from django.contrib import admin
 
 class ProfessorAdmin(admin.ModelAdmin):
@@ -32,17 +32,23 @@ class AtribuicaoAdmin(admin.ModelAdmin):
     
 
 class PerguntaAdmin(admin.ModelAdmin):
-    fields = (
-        ('',{'fields': ('texto', 'tipo', 'questionario',)}),
-        )
+    fieldsets = [
+        ('Dados', {'fields': ['tipo', 'questionario',]},),
+        ('Pergunta', {'fields': ['texto',]},),
+        ]
     search_fields = ['texto']
-    list_filter = ['tipo']
+    list_display = ('texto', 'tipo',)
+    list_filter = ['tipo', 'questionario']
     
 class AlternativaAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('texto', 'pergunta',)
+    list_filter = ['pergunta',]
+    search_fields = ['texto']
+    ordering = ['pergunta']
 
-class RespostaAdmin(admin.ModelAdmin):
-    pass
+#
+#class RespostaAdmin(admin.ModelAdmin):
+#    pass
 
 
 #class GenreAdmin(admin.ModelAdmin):
@@ -62,13 +68,13 @@ class RespostaAdmin(admin.ModelAdmin):
 #    date_hierarchy = 'pub_date'
 
 
-#admin.site.register(Curso, CursoAdmin)
-#admin.site.register(Aluno, AlunoAdmin)
-#admin.site.register(Professor, ProfessorAdmin)
-#admin.site.register(Disciplina, DisciplinaAdmin)
-#admin.site.register(Atribuicao, AtribuicaoAdmin)
-#admin.site.register(Questionario, QuestionarioAdmin)
-#admin.site.register(Pergunta, PerguntaAdmin)
-#admin.site.register(Resposta)
-#admin.site.register(Alternativa)
+admin.site.register(Curso, CursoAdmin)
+admin.site.register(Aluno, AlunoAdmin)
+admin.site.register(Professor, ProfessorAdmin)
+admin.site.register(Disciplina, DisciplinaAdmin)
+admin.site.register(Atribuicao, AtribuicaoAdmin)
+admin.site.register(Questionario, QuestionarioAdmin)
+admin.site.register(Pergunta, PerguntaAdmin)
+admin.site.register(Resposta)
+admin.site.register(Alternativa, AlternativaAdmin)
 

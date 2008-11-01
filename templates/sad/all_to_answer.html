@@ -1,11 +1,11 @@
-<html>
-<body>
-
+{% extends 'sad/base.html' %}
+{% block content %}
 {% if answered %}
-<p>Obrigado por responder</p>
+<p>Obrigado por responder essa disciplina!</p>
 {% endif %}
 
 {% if disciplinas %}
+    Disciplinas dispon&iacute;veis para responder:
     <ul>
         {% for disciplina in disciplinas %}
         <li><a href="/IC/{{ano}}s{{semestre}}/{{disciplina}}/answer/">{{ disciplina }}</a></li>
@@ -14,6 +14,4 @@
 {% else %}
     <p>No questions are available for this year.</p>
 {% endif %}
-
-</body>
-</html>
+{% endblock %}

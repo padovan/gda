@@ -20,7 +20,7 @@ DRE_FILE = '(?P<site>fileDownloadPublico\.do)'
 DRE_ALUNO = '(?P<ra>[0-9]{5,7})[ ]*\\t(?P<nome>.*)[ ]*\\t(?P<curso>[0-9][0-9])\\t(?P<nivel>[A-Z])'
 DRE_PROF = 'Docente: (?P<docente>.*)\\r\\n'
 
-
+DRE_HOR_POS = '\<a href="(?P<pos_hor>[MD][0-9]{5,5}\.htm)"\>'
 
 
 
@@ -148,24 +148,37 @@ def get_matriculados(txtDisciplina):
 # Por enquanto temos:
 
 INSTITUTO='IC'
-SEMGRAD=['1']
-SEMPOS=['-1']
 ANO=['2008']
 
-NIVEL = 'G':
+SEMGRAD=['1']
+SEMPOS=['-1']
+NIVEL = 'G'
 SITE_HOR = "http://www.dac.unicamp.br/sistemas/horarios/grad/G" \
     + SEMGRAD[0] + "S0/"+  INSTITUTO + ".htm"
-  
-ld = all_disc()
+
+#ld = all_disc()
+#for d in ld:
+#    get_matriculados(d)
   
 SEMGRAD=['-1']
 SEMPOS=['1']
-  SITE_HOR = "wget http://www.dac.unicamp.br/sistemas/horarios/pos/P" \
-    + SEMPOS[0] + "S/"+  INSTITUTO + ".htm"
+NIVEL= 'P'
+BASE_SITE = "wget http://www.dac.unicamp.br/sistemas/horarios/pos/P" \
+    + SEMPOS[0] + "S/"
 
+def get_disc_pos():
+    os.system("wget " + SITE_HOR + INSTITUTO + .htm " > /dev/null")
+    os.system("iconv -f iso8859-1 -t utf-8 " + INSTITUTO + ".htm >" +  INSTITUTO + ".utf8")
+    f = open(INSTITUTO + ".utf8")
+    s_disc = f.read()
+    f.close()
+    os.remove(INSTITUTO + ".utf8")
+    os.remove(INSTITUTO + ".htm")
+    d_file = re.compile(DRE_HOR_POS)
+    m = re.findall(d_file, s_disc)
+    print m
 
-
-for d in ld:
-    get_matriculados(d)
+get_disc_pos()
+	
 print "Done."
 
