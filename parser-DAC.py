@@ -44,8 +44,7 @@ def get_site(base, file):
     # FIXME: Fiz uma pequena gambiarra para pode pegar os dados em utf-8
     # Troquei o código abaixo pelo wget da página e um iconv
     #s_disc = urllib2.urlopen(SITE_HOR).read().encode('iso8859-1').decode('utf-8')
-    print base + file
-    os.system("wget " + base + file + " > /dev/null")
+    os.system("wget " + base + file + " 2&> /dev/null")
     os.system("iconv -f iso8859-1 -t utf-8 " + file + " > " + file + ".utf8")
     f = open(file + ".utf8")
     site = f.read()
@@ -55,16 +54,17 @@ def get_site(base, file):
     return site
 
 
-def add_disciplina(ld , all):
+def add_disciplina(ld):
 
     # questionário default
     q = Questionario.objects.get(tipo='default')
     # inclui Disciplina no BD e cria lista com elas
+    r = []
     for l in ld:
         p = Disciplina(sigla = l[0], nome = l[1], questionario = q)
         p.save()
-        all.append(l[0])
-    return all
+        r.append(l[0])
+    return r
 
 
 # primeira parte: Descubrir as disciplinas de um dado semestre
@@ -83,7 +83,7 @@ def get_disc_grad():
     d_all_disc = re.compile(DRE_ALL_DISC)
     # gera lista de disciplinas
     l_disc = re.findall(d_all_disc, s_disc)
-    r = add_disciplina(l_disc, [])
+    r = add_disciplina(l_disc)
     return r
 
 
@@ -99,7 +99,8 @@ def get_disc_pos():
         d_all_disc = re.compile(DRE_HOR_POS_DETAIL)
         # gera lista de disciplinas 
         l_disc = re.findall(d_all_disc, site)
-        r = add_disciplina(l_disc, r)
+        d = add_disciplina(l_disc)
+        r = r + d
     return r
 
 
