@@ -30,7 +30,7 @@ def show_all_courses(request, ano, semestre):
 
 
 def show_all_answers(request, ano, semestre,disciplina):
-    answers = ["Foi phoda!", "Dahab coxa!", "Anidao parcero!"]
+    answers = ["Foi phoda!", "coxa!"]
     return render_to_response('sad/all_answers.html', 
                               { 'ano': ano , 
                                 'semestre': semestre , 
@@ -42,7 +42,6 @@ def all_to_answer(request, ano, semestre):
     #disciplinas = models.Disciplina.objects.filter()  # apenas materia que o cara faz
     
     disciplinas = models.Disciplina.objects.all()
-    #disciplinas = ['MC404', 'MC348', 'MC-Serginho']
     return render_to_response('sad/all_to_answer.html', 
                               { 'ano': ano , 
                                 'semestre': semestre ,
