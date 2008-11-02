@@ -19,38 +19,64 @@ DRE_TURMAS = '<tr height="18">[\\t\\n ]*<td height="18" bgcolor="white" width="1
 DRE_FILE = '(?P<site>fileDownloadPublico\.do)'
 DRE_ALUNO = '(?P<ra>[0-9]{5,7})[ ]*\\t(?P<nome>.*)[ ]*\\t(?P<curso>[0-9][0-9])\\t(?P<nivel>[A-Z])'
 DRE_PROF = 'Docente: (?P<docente>.*)\\r\\n'
-
 DRE_HOR_POS = '\<a href="(?P<pos_hor>[MD][0-9]{5,5}\.htm)"\>'
+DRE_HOR_POS_DETAIL = '<font size=-1>(?P<disc_id>[A-Z][A-Z ][0-9]{3,3})(?P<disc_nome>.*)   </font>'
 
 
 
-# primeira parte: Discubrir as disciplinas de um dado semestre
-def all_disc():
-    
+def get_site(base, file):
+
     # FIXME: Fiz uma pequena gambiarra para pode pegar os dados em utf-8
     # Troquei o código abaixo pelo wget da página e um iconv
     #s_disc = urllib2.urlopen(SITE_HOR).read().encode('iso8859-1').decode('utf-8')
-
-    # Aqui começa a gambiarra
-    os.system("wget " + SITE_HOR + " > /dev/null")
-    os.system("iconv -f iso8859-1 -t utf-8 " + INSTITUTO + ".htm >" +  INSTITUTO + ".utf8")
-    f = open(INSTITUTO + ".utf8")
-    s_disc = f.read()
+    print base + file
+    os.system("wget " + base + file + " > /dev/null")
+    os.system("iconv -f iso8859-1 -t utf-8 " + file + " > " + file + ".utf8")
+    f = open(file + ".utf8")
+    site = f.read()
     f.close()
-    os.remove(INSTITUTO + ".utf8")
-    os.remove(INSTITUTO + ".htm")
-    # aqui termina 
-    
-    d_all_disc = re.compile(DRE_ALL_DISC)
-    l_disc = re.findall(d_all_disc, s_disc)
-    r = []
+    os.remove(file + ".utf8")
+    os.remove(file)
+    return site
+
+
+def add_disciplina(ld , all):
+
     # questionário default
     q = Questionario.objects.get(tipo='default')
     # inclui Disciplina no BD e cria lista com elas
-    for l in l_disc:
+    for l in ld:
         p = Disciplina(sigla = l[0], nome = l[1], questionario = q)
         p.save()
-        r.append(l[0])
+        all.append(l[0])
+    return all
+
+
+# primeira parte: Discubrir as disciplinas de um dado semestre
+def get_disc_grad():
+    
+    getbase = BASE_SITE
+    getfile = INSTITUTO + ".htm"
+    s_disc = get_site(getbase, getfile)
+    
+    d_all_disc = re.compile(DRE_ALL_DISC)
+    l_disc = re.findall(d_all_disc, s_disc)
+    r = add_disciplina(l_disc, [])
+    return r
+
+
+def get_disc_pos():
+    getbase = BASE_SITE
+    getfile = INSTITUTO + ".htm"
+    s_disc = get_site(getbase, getfile)
+    d_file = re.compile(DRE_HOR_POS)
+    pages = re.findall(d_file, s_disc)
+    r = []
+    for p_hor in pages:
+        site = get_site(getbase, p_hor)
+        d_all_disc = re.compile(DRE_HOR_POS_DETAIL)
+        l_disc = re.findall(d_all_disc, site)
+        r = add_disciplina(l_disc, r)
     return r
 
 
@@ -74,7 +100,7 @@ def get_matriculados(txtDisciplina):
 
     mech.select_form("FormSelecionarNivelPeriodoDisciplina")
     mech["cboSubG"] = SEMGRAD
-    #mech["cboSubP"] = SEMPOS
+    mech["cboSubP"] = SEMPOS_FORM
     mech["cboAno"] = ANO
     mech["txtDisciplina"]  = txtDisciplina
     res1 = mech.submit()
@@ -89,7 +115,7 @@ def get_matriculados(txtDisciplina):
 
         mech.select_form("FormSelecionarNivelPeriodoDisciplina")
         mech["cboSubG"] = SEMGRAD
-        #mech["cboSubP"] = SEMPOS
+        mech["cboSubP"] = SEMPOS_FORM
         mech["cboAno"] = ANO
         mech["txtDisciplina"] = txtDisciplina
         mech["txtTurma"] = t
@@ -141,8 +167,6 @@ def get_matriculados(txtDisciplina):
             at.aluno.add(al)
             
 
-
-
 #main()
 # O instituto será fornecido no futuro via inteface administrativa do django.
 # Por enquanto temos:
@@ -150,35 +174,27 @@ def get_matriculados(txtDisciplina):
 INSTITUTO='IC'
 ANO=['2008']
 
-SEMGRAD=['1']
-SEMPOS=['-1']
+SEMGRAD = ['2']
+SEMPOS_FORM = ['0']
 NIVEL = 'G'
-SITE_HOR = "http://www.dac.unicamp.br/sistemas/horarios/grad/G" \
-    + SEMGRAD[0] + "S0/"+  INSTITUTO + ".htm"
+BASE_SITE = "http://www.dac.unicamp.br/sistemas/horarios/grad/G" \
+    + SEMGRAD[0] + "S0/"
 
-#ld = all_disc()
-#for d in ld:
-#    get_matriculados(d)
+ld = get_disc_grad()
+for d in ld:
+    get_matriculados(d)
   
-SEMGRAD=['-1']
-SEMPOS=['1']
-NIVEL= 'P'
+SEMGRAD = ['0']
+SEMPOS_URL = '2'
+SEMPOS_FORM = ['22']
+NIVEL =  'P'
 BASE_SITE = "wget http://www.dac.unicamp.br/sistemas/horarios/pos/P" \
-    + SEMPOS[0] + "S/"
+    + SEMPOS_URL + "S/"
 
-def get_disc_pos():
-    os.system("wget " + SITE_HOR + INSTITUTO + .htm " > /dev/null")
-    os.system("iconv -f iso8859-1 -t utf-8 " + INSTITUTO + ".htm >" +  INSTITUTO + ".utf8")
-    f = open(INSTITUTO + ".utf8")
-    s_disc = f.read()
-    f.close()
-    os.remove(INSTITUTO + ".utf8")
-    os.remove(INSTITUTO + ".htm")
-    d_file = re.compile(DRE_HOR_POS)
-    m = re.findall(d_file, s_disc)
-    print m
 
-get_disc_pos()
-	
+ld = get_disc_pos()
+for d in ld:
+    get_matriculados(d)
+
 print "Done."
 
