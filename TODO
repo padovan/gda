@@ -1,0 +1,3 @@
+Falta fazer um template correto para a tabela Alternativa: Ela deve suportar
+apenas alternativas para perguntas do tipo alternativas. Ela está exibindo as
+perguntas que são do tipo dissertativas também, o que não é correto.
