@@ -14,12 +14,6 @@ class Curso(models.Model):
     def __unicode__(self):
         return self.nome
 
-#    class Admin:
-#        list_display = ['codigo','nome']
-#        ordering = ['nome']
-#
-#    class Meta:
-#        ordering = ['nome']
 
 class Aluno(models.Model):
     RA = models.CharField(max_length=6, primary_key=True)
@@ -33,14 +27,6 @@ class Aluno(models.Model):
     def __unicode__(self):
         return self.RA
 
-#    class Admin:
-#        fields = (
-#                ('', {'fields': ('RA', 'nome', 'email', 'curso',)}),
-#        )
-#        list_display = ('RA', 'nome', 'email', 'curso')
-#        list_filter = ['curso']
-#        search_fields = ('nome', 'RA')
-
 
 class Professor(models.Model):
     #FIXME: adicionar mais campos aqui
@@ -51,9 +37,6 @@ class Professor(models.Model):
     def __unicode__(self):
         return self.nome
 
-#    class Admin:
-#        search_fields = ('nome')
-
 
 class Questionario(models.Model):
     tipo = models.CharField(max_length=128)
@@ -62,11 +45,6 @@ class Questionario(models.Model):
 
     def __unicode__(self):
         return self.tipo
-
-#    class Admin:
-#        list_display = ('tipo', 'texto')
-#        list_filter = ['tipo']
-#        search_fields = ('texto')
 
 
 class Disciplina(models.Model):
@@ -78,10 +56,6 @@ class Disciplina(models.Model):
     def __unicode__(self):
         return self.sigla
 
-#    class Admin:
-#        list_display = ('sigla','nome')
-#        # FIXME: fazer buscar por sigla ou por nome
-#        search_fields = ('sigla')
 
 class Atribuicao(models.Model):
     disciplina = models.ForeignKey(Disciplina)
@@ -91,14 +65,8 @@ class Atribuicao(models.Model):
     # FIXME: configurar atribuicao default para o semestre corrente.
     semestre = models.DateField()
 
-
     def __unicode__(self):
         return self.disciplina.sigla + self.turma
-
-#    class Admin:
-#        list_display = ('disciplina','professor', 'turma')
-#        list_filter = ['disciplina']
-#        search_fields = ('disciplina')
 
 
 class Pergunta(models.Model):
@@ -113,13 +81,6 @@ class Pergunta(models.Model):
     def __unicode__(self):
         return self.texto
 
-#    class Admin:
-#        fields = (
-#                ('',{'fields': ('texto', 'tipo', 'questionario',)}),
-#        )
-#        search_fields = ['texto']
-#        list_filter = ['tipo']
-
 
 class Alternativa(models.Model):
     texto = models.CharField(max_length=512)
@@ -127,9 +88,6 @@ class Alternativa(models.Model):
 
     def __unicode__(self):
         return self.texto
-
-#    class Admin:
-#        pass
 
 
 class Resposta(models.Model):
@@ -142,5 +100,3 @@ class Resposta(models.Model):
     def __unicode__(self):
         return self.texto
 
-#    class Admin:
-#        pass
