@@ -166,7 +166,12 @@ def get_matriculados(disc):
         at.save()
         #inclui os alunos
         for i in alunos:
-            al = Aluno(RA=i[0], nome= i[1], curso= i[2])
+            ra = i[0]
+            if len(ra) == 5:
+                ra = '0' + ra
+            #email = (i[1][0]).lower()
+            #email = email + ra + '@dac.unicamp.br' 
+            al = Aluno(RA=ra, nome= i[1],  curso= i[2])
             al.save()
             at.aluno.add(al)
             
