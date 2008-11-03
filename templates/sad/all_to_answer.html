@@ -1,6 +1,6 @@
 {% extends 'sad/base.html' %}
 {% block content %}
-{% if answered %}
+{% if respondido %}
 <p>Obrigado por responder essa disciplina!</p>
 {% endif %}
 
@@ -8,10 +8,10 @@
     Disciplinas dispon&iacute;veis para responder:
     <ul>
         {% for disciplina in disciplinas %}
-        <li><a href="/IC/{{ano}}s{{semestre}}/{{disciplina}}/answer/">{{ disciplina }}</a></li>
+        <li><a href="/IC/{{ano}}s{{semestre}}/{{disciplina}}{{turma}}/answer/">{{ disciplina }}{{ turma }}</a></li>
         {% endfor %}
     </ul>
 {% else %}
-    <p>No questions are available for this year.</p>
+    <p>N&atilde;o h&aacute; disciplinas a serem respondidas nesse semestre. Obrigado.</p>
 {% endif %}
 {% endblock %}

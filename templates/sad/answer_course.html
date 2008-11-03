@@ -1,7 +1,7 @@
 {% extends 'sad/base.html' %}
 {% block content %}
-    <h1>{{ disciplina }}</h1>
-    <form method='GET' action='/IC/{{ano}}s{{semestre}}/{{disciplina}}/commit/'>
+<h1>{{ disciplina }}{{ turma }}</h1>
+    <form method='GET' action='/IC/{{ano}}s{{semestre}}/{{disciplina}}{{turma}}/commit/'>
         {% for p in perguntas %}
             <div class="entry">
                 <p><b> {{ p.pergunta }}</b></p>
