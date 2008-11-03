@@ -1,18 +1,45 @@
-Interface de usuário:
-* Falta fazer um template correto para a tabela Alternativa: Ela deve suportar
-apenas alternativas para perguntas do tipo alternativas. Ela está exibindo as
-perguntas que são do tipo dissertativas também, o que não é correto.
+Features:
+* Suporte para disciplina com dois ou mais professores.
 
+* Suporte para questionário aléatório. Por exemplo, questionário sobre a
+infraestrutura do instituto ou opiniões diversas.
+
+* Remover todas as gambiarras que ficaram no código.
+
+* Possibilidade de ordenar as perguntas de um questionário,
+atualmente ele exibe na ordem de inserção no banco.
+
+* Um questionário pode conter outros questionário. Para facilitar a construção 
+de questinário. ( talvez criar uma classe subquestionário, ou nem precisemos disso)
+
+
+Interface de usuário:
 * Manter exibido as disciplinas respondidas, permitindo alteração das respostas
-na atual atribuição
+na atual atribuição 
+
+* Melhorar o formulário de resposta. (permitir o usuário salvar parcialmente 	
+as perguntas, talvez salvar automaticamente com javascript; botão para sair
+sem salvar, salvar e continuar depois)
 
 * Após responder uma pergunta, fazer algo descente pra exibir as outras
 disciplinas (podia ser um header refresh de 5 segundos pra página de responder
 outras disciplinas)
 
+* Interface pra exibir semestres já respondidos.
+
+* Ao mostrar a lista de disciplinas respondidas ou a responder mostrar a quantidade respondida
+em relação ao total)
+
+* suporte a múltiplos institutos
+
+
 Interface administrativa:
-* Incluir a possibilidade de seleção de ordem das perguntas de um questionário,
-atualmente ele exibe na ordem de inserção no banco
+
+* Falta fazer um template correto para a tabela Alternativa: Ela deve suportar
+apenas alternativas para perguntas do tipo alternativas. Ela está exibindo as
+perguntas que são do tipo dissertativas também, o que não é correto.
 
 Models:
 * Atribuição está sem chave primária
+
+* Estudar todo o BD de novo.
