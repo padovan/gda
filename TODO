@@ -9,3 +9,6 @@ na atual atribuição
 Interface administrativa:
 * Incluir a possibilidade de seleção de ordem das perguntas de um questionário,
 atualmente ele exibe na ordem de inserção no banco
+
+Models:
+* Atribuição está sem chave primária
