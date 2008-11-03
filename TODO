@@ -6,6 +6,10 @@ perguntas que são do tipo dissertativas também, o que não é correto.
 * Manter exibido as disciplinas respondidas, permitindo alteração das respostas
 na atual atribuição
 
+* Após responder uma pergunta, fazer algo descente pra exibir as outras
+disciplinas (podia ser um header refresh de 5 segundos pra página de responder
+outras disciplinas)
+
 Interface administrativa:
 * Incluir a possibilidade de seleção de ordem das perguntas de um questionário,
 atualmente ele exibe na ordem de inserção no banco
