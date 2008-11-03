@@ -5,7 +5,9 @@ import re
 import sys, os
 import mechanize
 #import urllib2
-from time import sleep
+import string
+from random import choice
+from sha1 import new
 
 from caco.sad.models import *
 
@@ -169,11 +171,18 @@ def get_matriculados(disc):
             ra = i[0]
             if len(ra) == 5:
                 ra = '0' + ra
-            #email = (i[1][0]).lower()
-            #email = email + ra + '@dac.unicamp.br' 
-            al = Aluno(RA=ra, nome= i[1],  curso= i[2])
-            al.save()
-            at.aluno.add(al)
+            email = (i[1][0]).lower()
+            if email not in []:
+                print 'Digite a letra do cara: i', i[1]
+                email = raw_input()
+            email = email + ra + '@dac.unicamp.br' 
+            al = Aluno.objects.filter(username=ra)
+            if not al:
+                al = Aluno(username=ra, nome= i[1],  curso= i[2])
+                al.save()
+                at.aluno.add(al)
+            else: 
+                at.aluno.add(al[0])
             
 
 #main()
