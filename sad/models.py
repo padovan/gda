@@ -1,31 +1,26 @@
 from django.db import models
-import time
-
+from django.contrib.auth.models import User
 
 '''
     1. Botar pra funcionar depois a objetos Curso e Instituto!
 '''
 
+#class Curso(models.Model):
+#    codigo = models.IntegerField(primary_key=True)
+#    nome = models.CharField(max_length=256)
+#
+#    def __unicode__(self):
+#        return self.nome
 
-class Curso(models.Model):
-    codigo = models.IntegerField(primary_key=True)
+
+class Aluno(User):
     nome = models.CharField(max_length=256)
-
-    def __unicode__(self):
-        return self.nome
-
-
-class Aluno(models.Model):
-    RA = models.CharField(max_length=6, primary_key=True)
-    nome = models.CharField(max_length=256)
-    email = models.EmailField()
     # FIXME: habilitar o curso aqui:
     #curso = models.ForeignKey(Curso)
     curso = models.CharField(max_length=2)
-    senha = models.CharField(max_length=256)
 
     def __unicode__(self):
-        return self.RA
+        return self.username
 
 
 class Professor(models.Model):
@@ -91,11 +86,12 @@ class Alternativa(models.Model):
 
 
 class Resposta(models.Model):
-	# Tem que ser o texto ou alternativa
-    texto = models.CharField(max_length=1024, null=True)
     pergunta = models.ForeignKey(Pergunta)
+    # Tem que ser o texto ou alternativa
+    texto = models.CharField(max_length=1024, null=True)
     alternativa = models.ForeignKey(Alternativa, null=True)
-    semestre = models.DateField()
+    hash_aluno = models.CharField(max_length=32)
+    atribuicao = models.ForeignKey(Atribuicao)
 
     def __unicode__(self):
         return self.texto
