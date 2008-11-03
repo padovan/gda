@@ -1,4 +1,4 @@
-from caco.sad.models import Professor,Questionario,Curso,Aluno,Atribuicao,Disciplina,Pergunta,Alternativa,Resposta
+from caco.sad.models import *
 from django.contrib import admin
 
 class ProfessorAdmin(admin.ModelAdmin):
@@ -16,10 +16,10 @@ class CursoAdmin(admin.ModelAdmin):
     ordering = ['nome']
 
 class AlunoAdmin(admin.ModelAdmin):
-    list_display = ('RA','nome','email', 'curso',)
+    list_display = ('username','nome','email', 'curso',)
     list_filter = ['curso']
-    search_fields = ['RA', 'nome', 'email']
-    ordering = ['RA']
+    search_fields = ['username', 'nome', 'email']
+    ordering = ['username']
 
 class DisciplinaAdmin(admin.ModelAdmin):
     list_display = ('sigla', 'nome')
@@ -39,6 +39,9 @@ class PerguntaAdmin(admin.ModelAdmin):
     search_fields = ['texto']
     list_display = ('texto', 'tipo',)
     list_filter = ['tipo', 'questionario']
+
+class RespostaAdmin(admin.ModelAdmin):
+    pass
     
 class AlternativaAdmin(admin.ModelAdmin):
     list_display = ('texto', 'pergunta',)
@@ -68,13 +71,13 @@ class AlternativaAdmin(admin.ModelAdmin):
 #    date_hierarchy = 'pub_date'
 
 
-admin.site.register(Curso, CursoAdmin)
+#admin.site.register(Curso, CursoAdmin)
 admin.site.register(Aluno, AlunoAdmin)
 admin.site.register(Professor, ProfessorAdmin)
 admin.site.register(Disciplina, DisciplinaAdmin)
 admin.site.register(Atribuicao, AtribuicaoAdmin)
 admin.site.register(Questionario, QuestionarioAdmin)
 admin.site.register(Pergunta, PerguntaAdmin)
-admin.site.register(Resposta)
+admin.site.register(Resposta, RespostaAdmin)
 admin.site.register(Alternativa, AlternativaAdmin)
 
