@@ -33,7 +33,6 @@ sem salvar, salvar e continuar depois)
 disciplinas (podia ser um header refresh de 5 segundos pra página de responder
 outras disciplinas)
 
-* Interface pra exibir semestres já respondidos.
 
 * Ao mostrar a lista de disciplinas respondidas ou a responder mostrar a 
 quantidade respondida
@@ -44,9 +43,8 @@ em relação ao total)
 * [HIGH] mostrar mensangens dizendo que o GDA é experimental e se o aluno
 clicar em Enviar não poderá responder de novo o questionário.
 
-* [HIGH] mostrar disciplinas já respondidas e se der tempo implementar suporte
-a responder à disciplina novamente.
-
+* [HIGH] implementar suporte para recuperar as respostas do aluno para que
+ele possa continuar as responder depois.
 
 Interface administrativa:
 
