@@ -5,6 +5,8 @@ General:
 * parsear a tabela de e-mails alternativos  do alunos da pós que o Rodolfo
 * mandou e adicionar no arquivo descrito acima
 
+* melhorar as expressões regulares do parser
+
 
 Features:
 * Suporte para disciplina com dois ou mais professores.
