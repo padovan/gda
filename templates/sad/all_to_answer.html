@@ -1,14 +1,24 @@
 {% extends 'sad/base.html' %}
 {% block content %}
 {% if respondido %}
-<p>Obrigado por responder essa disciplina!</p>
+	<p>Você respondeu à disciplina {{ultima_resp}}</p>
+	<p> Obrigado.</p>
 {% endif %}
 
-{% if disciplinas %}
-    Disciplinas dispon&iacute;veis para responder:
+{% if atr_resp %}
+    Disciplinas já respondidas (Atenção: se você quiser responder novamente a uma disciplina as respostas anteriores serão apagadas):
     <ul>
-        {% for disciplina in disciplinas %}
-        <li><a href="/IC/{{ano}}s{{semestre}}/{{disciplina}}{{turma}}/answer/">{{ disciplina }}{{ turma }}</a></li>
+        {% for d in atr_resp %}
+        <li><a href="/IC/{{ano}}s{{semestre}}/{{d}}{{turma}}/answer/">{{d}}{{ turma }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if atribuicao %}
+    Disciplinas não repondidas:
+    <ul>
+        {% for d  in atribuicao %}
+        <li><a href="/IC/{{ano}}s{{semestre}}/{{d}}{{turma}}/answer/">{{ d }}{{ turma }}</a></li>
         {% endfor %}
     </ul>
 {% else %}
