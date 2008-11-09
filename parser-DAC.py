@@ -9,7 +9,7 @@ import string
 from random import choice
 from sha import new
 import string
-from random import choice
+from random import choice, random
 
 from caco.sad.models import *
 
@@ -25,6 +25,7 @@ DRE_ALUNO = '(?P<ra>[0-9]{5,7})[ ]*\\t(?P<nome>.*)[ ]*\\t(?P<curso>[0-9][0-9])\\
 DRE_PROF = 'Docente: (?P<docente>.*)\\r\\n'
 DRE_HOR_POS = '\<a href="(?P<pos_hor>[MD][0-9]{5,5}\.htm)"\>'
 DRE_HOR_POS_DETAIL = '<font size=-1>(?P<disc_id>[A-Z][A-Z ][0-9]{3,3})(?P<disc_nome>.*)   </font>'
+DRE_EMAIL = '^[A-Za-z]'
 
 
 
@@ -170,19 +171,43 @@ def get_matriculados(disc):
         at.save()
         #inclui os alunos
         for i in alunos:
+            # FIXME: código porco
             ra = i[0]
+            curso = i[2]
             if len(ra) == 5:
                 ra = '0' + ra
-            email = (i[1][0]).lower()
-            if email not in []:
-                print 'Digite a letra do cara: i', i[1]
-                email = raw_input()
-            email = email + ra + '@dac.unicamp.br' 
             al = Aluno.objects.filter(username=ra)
             if not al:
+                email = (i[1][0])
+                demail = re.compile(DRE_EMAIL)
+                n = re.search(demail, email)
+                if n is None:
+                    print  "Digite a primeira letra sem o acento: " +  i[1]
+                    email = raw_input()
+                     email = 'e'
+                email = email.lower()
+                email = email + ra + '@dac.unicamp.br'
+
                 pass_size = 8
-                passwd = ''.join([choice(string.letters + string.digits) for i in range(pass_size)])
-                al = Aluno(username=ra, nome= i[1],  curso= i[2])
+                passwd = ''.join([choice(string.letters + string.digits) for j in range(pass_size)])
+                salt = new(str(random())).hexdigest()[:5]
+                hash1 = new(salt + passwd).hexdigest()
+                hash2 = 'sha1$' + salt + '$' + hash1
+                
+                new_stu = []
+                new_stu.append(ra)
+                new_stu.append(i[1])
+                new_stu.append(passwd)
+                new_stu.append(email)
+                # FIXME: falta mestrado aqui
+                if curso == '34' or curso == '42' or curso == '53':
+                    email2 = 'ra' + ra + '@students.ic.unicamp.br'
+                    new.stu.append(email2)
+
+                all_stu.append(new_stu)
+
+
+                al = Aluno(username=ra, password=hash2, nome= i[1], email=email, curso= curso)
                 al.save()
                 at.aluno.add(al)
             else: 
@@ -197,6 +222,7 @@ INSTITUTO='IC'
 ANO='2008'
 SEMESTRE='2'
 
+all_stu = []
 
 ## GRAD #
 SEMGRAD = SEMESTRE
@@ -220,9 +246,18 @@ BASE_SITE = "wget http://www.dac.unicamp.br/sistemas/horarios/pos/P" \
     + SEMESTRE + "S/"
 
 ld = get_disc_pos()
+print ld
 for d in ld:
     get_matriculados(d)
 ## fim POS #   
+
+f = open("alunos.passwd", 'w')
+for i in all_stu:
+    for j in i:
+        f.write(j)
+        f.write(' ')
+    f.write('\n')
+f.close()
 
 print "Done."
 
