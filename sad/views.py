@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from caco.sad import models
 from gdadefs import *
+from md5 import new
 
 def show_all_semesters(request):
     semesters = ["Bla", "Creu", "GDA"]
@@ -32,12 +33,11 @@ def all_to_answer(request, ano, semestre, respondido = False, ultima_resp = ''):
             # pega as disciplinas desse semestre
             atribuicaoPadrao = models.Atribuicao.objects.filter(aluno=aluno, semestre=dbSemester(semestre, ano))
             # mostra apenas as disciplinas que ele ainda nao respondeu
-            from md5 import new
             hash = new(request.user.username).hexdigest()
             atribuicao = []
             atr_resp = []
             for atr in atribuicaoPadrao:
-                # FI XME deveria ser mais limpo, um if
+                # FIXME deveria ser mais limpo, um if
                 if not models.Resposta.objects.filter(hash_aluno=hash, atribuicao=atr):
                     # remove a atribuicao ja respondida 
                     atribuicao.append(atr)
@@ -61,37 +61,51 @@ def all_to_answer(request, ano, semestre, respondido = False, ultima_resp = ''):
 
 def answer_course(request, ano, semestre, disciplina, turma):
     discs = models.Disciplina.objects.filter(sigla=disciplina)
-    try:
-        d = discs[0]  # sera lidado uma disciplina por vez no questionario
-        pergs = models.Pergunta.objects.filter(questionario=d.questionario)
-        pergL = []
-        for p in pergs:
-            if p.tipo == 'A':  # alternativa 
-                alters = models.Alternativa.objects.filter(pergunta=p)
-                alterL = []
-                for a in alters:
-                    alterL.append({'id' : a.id, 'texto' : a.texto,})
-                pergL.append({'id' : p.id, 'pergunta' : p.texto, 'alternativas' : alterL,})
-            else:
-                pergL.append({'id' : p.id, 'pergunta' : p.texto, })
-        return render_to_response('sad/answer_course.html',
-                                  { 'ano': ano , 
-                                    'semestre': semestre ,
-                                    'disciplina': disciplina,
-                                    'turma': turma,
-                                    'perguntas': pergL,
-                                    'nome': d.nome,
-                                    } 
-                                  )
-    except:
-        return render_to_response('sad/consistency_error.html', {} )
+    #try:
+    d = discs[0]  # sera lidado uma disciplina por vez no questionario
+    pergs = models.Pergunta.objects.filter(questionario=d.questionario)
+    pergL = []
+    respL = []
+    hash = new(request.user.username).hexdigest()
+    atr = models.Atribuicao.objects.filter(disciplina=disciplina,
+            turma=turma, semestre=dbSemester(semestre,ano))[0]
+    for p in pergs:
+        r = models.Resposta.objects.filter(pergunta=p, hash_aluno=hash, atribuicao=atr)
+        if not r:
+            respL.append('')
+        elif p.tipo == 'A':  # alternativa
+            respL.append(r[0].alternativa)
+        else:    
+            respL.append(r[0].texto)
+
+        if p.tipo == 'A':  # alternativa 
+            alters = models.Alternativa.objects.filter(pergunta=p)
+            alterL = []
+            for a in alters:
+                alterL.append({'id' : a.id, 'texto' : a.texto,})
+            pergL.append({'id' : p.id, 'pergunta' : p.texto, 'alternativas' : alterL,})
+        else:
+            pergL.append({'id' : p.id, 'pergunta' : p.texto, })
+    print respL
+
+    return render_to_response('sad/answer_course.html',
+                              { 'ano': ano , 
+                                'semestre': semestre ,
+                                'disciplina': disciplina,
+                                'turma': turma,
+                                'perguntas': pergL,
+                                'respostas': respL,
+                                'nome': d.nome,
+                                } 
+                              )
+    #except:
+     #   return render_to_response('sad/consistency_error.html', {} )
 
 def commit_answer_course(request, ano, semestre, disciplina, turma):
     if request.GET:  # se houver respostas
         atribuicao = models.Atribuicao.objects.filter(disciplina=disciplina,
                 turma=turma, semestre=dbSemester(semestre,ano))[0]
         for resp in request.GET:
-            from md5 import new
             hash = new(request.user.username).hexdigest()
             if resp.startswith('pa'):  # alternativas
                 p_id = resp.replace('pa','')
