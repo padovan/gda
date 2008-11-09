@@ -7,7 +7,9 @@ import mechanize
 #import urllib2
 import string
 from random import choice
-from sha1 import new
+from sha import new
+import string
+from random import choice
 
 from caco.sad.models import *
 
@@ -178,6 +180,8 @@ def get_matriculados(disc):
             email = email + ra + '@dac.unicamp.br' 
             al = Aluno.objects.filter(username=ra)
             if not al:
+                pass_size = 8
+                passwd = ''.join([choice(string.letters + string.digits) for i in range(pass_size)])
                 al = Aluno(username=ra, nome= i[1],  curso= i[2])
                 al.save()
                 at.aluno.add(al)
