@@ -6,55 +6,65 @@ Autor: Gustavo Serra Scalet
 Licença: GPLv3 ou mais recente
 """
 
-spamMsg = """
-Olá%(nome)s,
+spamMsg = u"""
+Olá %(nome)s,
 
 Gostaríamos de informar que o seu usuário é: "%(user)s" com senha "%(pass)s" (sem as aspas)
+
+Você pode responder os questionários das seguintes disciplinas:
+%(discs)s
+
+Obrigado por contribuir
 """
 
-tmpFile = '/tmp/gdaLogin'
-subjText = 'Login do GDA'
+tmpFile = u'/tmp/gdaLogin'
+subjText = u'Login do GDA'
 
 def main():
 	import os, re, time
+	from caco.sad.models import Aluno, Atribuicao
+
 	alunos = [i.strip().split(' ') for i in open('alunos.passwd').readlines()]
 	total = len(alunos)
 
 	spamFill = {}
-	for n, aluno in enumerate(alunos):
-		try:
-			nome = os.popen('finger ' + aluno[3].split('@')[0])  # 'finger raxxxxxx'
-			nome = nome.readlines()[0]  # primeira linha que contém o 'Name: '
-			nome = ' %s' % re.sub(r'.*Name: ([^ ]*).*\n.*', r'\1', nome)  # precisa de um espaço
-		except:
-			nome = ''
+	for n, ra in enumerate(alunos):
+		# pegando o aluno
+		aluno = Aluno.objects.filter(username=ra[0])[0]
+		# pegando o primeiro nome
+		nome = aluno.nome.split(' ')[0]
+		# pegando as disciplinas
+		discs = ['%s - %s' % (d.disciplina.sigla, d.disciplina.nome.strip()) 
+			for d in Atribuicao.objects.filter(aluno=aluno)]
+
 		spamFill['nome'] = nome
-		spamFill['user'] = aluno[0]
-		spamFill['pass'] = aluno[1]
+		spamFill['user'] = ra[0]
+		spamFill['pass'] = ra[1]
+		spamFill['discs'] = '\n'.join(discs)
 
 		# trabalhando com a mensagem em um arquivo
 		handle = open(tmpFile, 'w')
-		handle.write(spamMsg % spamFill)
+		spamText = spamMsg % spamFill
+		handle.write(spamText.encode('utf8'))
 		handle.close
 
 		# envia o e-mail
-		try:
-			email = '%s %s' % aluno[2:4] # pega o terceiro e quarto campo
-		except TypeError:
-			email = aluno[2]
+		email = ' '.join(ra[2:]) # pega todos os emails
 		sendInfo = {
 			'to' : email,
 			'subj' : subjText,
 			'fn' : tmpFile
 		}
-		print 'Enviando spam %d/%d' % (n, total)
+		print u'Enviando spam %d/%d do usuário %s (%s)' % (n, total, ra[0], nome)
+		# Modo 4real
 		#os.system('mutt %(to)s -s "%(subj)s" < %(fn)s' % sendInfo)
+		# Modo dry-run
 		print 'mutt "%(to)s" -s "%(subj)s" < %(fn)s' % sendInfo
+		# end Modo
 		time.sleep(0.1)  # sem flood né
 
 		# remove o arquivo
-		os.remove(tmpFile)
-	
+		os.remove(tmpFile)	
 
 if __name__ == "__main__":
 	main()
