@@ -5,7 +5,7 @@ import re
 import sys, os
 import mechanize
 #import urllib2
-import pysqlite2
+#import pysqlite2
 import string
 from random import choice
 from sha import new
@@ -63,7 +63,12 @@ def get_site(base, file):
 def add_disciplina(ld):
 
     # questionário default
-    q = Questionario.objects.get(tipo='default')
+    try:
+        q = Questionario.objects.get(tipo='default')
+    except:
+        # então não tem o questionário 'default'... hum, o que iremos fazer?!
+        q = Questionario(tipo='default', texto='default', semestre='2008-08-01')
+        q.save()
     # inclui Disciplina no BD e cria lista com elas
     r = []
     for l in ld:
