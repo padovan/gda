@@ -1,0 +1,11 @@
+Passos para executar o parser-DAC.py
+
+* Entre no diretório onde tem o parser-DAC.py.
+* Digite no shell:
+export DJANGO_SETTINGS_MODULE="caco.settings"
+export PYTHONPATH+="$PWD"
+python parser-DAC.py
+
+Requisitos:
+* biblioteca mechanize instalada
+* base de dados syncada (rode "python manage.py syncdb")
