@@ -5,6 +5,7 @@ import re
 import sys, os
 import mechanize
 #import urllib2
+import pysqlite2
 import string
 from random import choice
 from sha import new
@@ -184,7 +185,7 @@ def get_matriculados(disc):
                 if n is None:
                     print  "Digite a primeira letra sem o acento: " +  i[1]
                     email = raw_input()
-                     email = 'e'
+                    email = 'e'
                 email = email.lower()
                 email = email + ra + '@dac.unicamp.br'
 
@@ -196,13 +197,12 @@ def get_matriculados(disc):
                 
                 new_stu = []
                 new_stu.append(ra)
-                new_stu.append(i[1])
                 new_stu.append(passwd)
                 new_stu.append(email)
                 # FIXME: falta mestrado aqui
                 if curso == '34' or curso == '42' or curso == '53':
                     email2 = 'ra' + ra + '@students.ic.unicamp.br'
-                    new.stu.append(email2)
+                    new_stu.append(email2)
 
                 all_stu.append(new_stu)
 
@@ -232,6 +232,8 @@ BASE_SITE = "http://www.dac.unicamp.br/sistemas/horarios/grad/G" \
     + SEMESTRE + "S0/"
 
 ld = get_disc_grad()
+ld = set(ld)
+ld = list(ld)
 for d in ld:
     get_matriculados(d)
 ## fim GRAD #
