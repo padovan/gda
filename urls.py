@@ -27,6 +27,6 @@ urlpatterns = patterns('',
                        (r'^gda/[Ii][Cc]/(?P<ano>\d+)[sS](?P<semestre>\d)/(?P<disciplina>[A-Z][A-Z]\d+)(?P<turma>[A-Z1-9#])/answer/$', views.answer_course),
                        (r'^gda/[Ii][Cc]/(?P<ano>\d+)[sS](?P<semestre>\d)/(?P<disciplina>[A-Z][A-Z]\d+)(?P<turma>[A-Z1-9#])/commit/$', views.commit_answer_course),
                        (r'^gda/(.*/)?(?P<path>.*\.css)$', 'django.views.static.serve', {'document_root': '/home/pao/sad-fenix/templates/css/' }),
-                       (r'^gda/.*/(?P<path>.*\.(jpg|png|gif))$', 'django.views.static.serve', {'document_root': 'templates/img/' }),
+                       (r'^gda/(.*/)?(?P<path>.*\.(jpg|png|gif))$', 'django.views.static.serve', {'document_root': '/home/pao/sad-fenix/templates/img/' }),
                        )
 

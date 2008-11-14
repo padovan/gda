@@ -7,7 +7,7 @@ Released for free under a Creative Commons Attribution 2.5 License
 body {
 	margin: 0;
 	padding: 0;
-	background: #FFFFFF url(/img01.jpg) repeat-x left top;
+	background: #FFFFFF url(img01.jpg) repeat-x left top;
 	text-align: justify;
 	font: 13px "Trebuchet MS", Arial, Helvetica, sans-serif;
 	color: #000000;
@@ -66,7 +66,8 @@ blockquote {
 
 a {
 	color: #000000;
-	text-decoration: none;}
+	text-decoration: none;
+}
 
 a:hover {
 	text-decoration: none;
@@ -393,7 +394,7 @@ img.left {
 	width: 950px;
 	margin: 0 auto;
 	padding: 30px 0;
-	background: url(/img02.jpg) repeat-x left top;
+	background: url(img02.jpg) repeat-x left top;
 	color: #B85212;
 }
 
