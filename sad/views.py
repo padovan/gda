@@ -63,43 +63,43 @@ def all_to_answer(request, ano, semestre, respondido = False, ultima_resp = ''):
 def answer_course(request, ano, semestre, disciplina, turma):
     discs = models.Disciplina.objects.filter(sigla=disciplina)
     try:
-		d = discs[0]  # sera lidado uma disciplina por vez no questionario
-		pergs = models.Pergunta.objects.filter(questionario=d.questionario)
-		pergL = []
-		respL = []
-		hash = new(request.user.username).hexdigest()
-		atr = models.Atribuicao.objects.filter(disciplina=disciplina,
-				turma=turma, semestre=dbSemester(semestre,ano))[0]
-		for p in pergs:
-			r = models.Resposta.objects.filter(pergunta=p, hash_aluno=hash, atribuicao=atr)
-			if not r:
-				respL.append('')
-			elif p.tipo == 'A':  # alternativa
-				respL.append(r[0].alternativa)
-			else:    
-				respL.append(r[0].texto)
+        d = discs[0]  # sera lidado uma disciplina por vez no questionario
+        pergs = models.Pergunta.objects.filter(questionario=d.questionario)
+        pergL = []
+        respL = []
+        hash = new(request.user.username).hexdigest()
+        atr = models.Atribuicao.objects.filter(disciplina=disciplina,
+                turma=turma, semestre=dbSemester(semestre,ano))[0]
+        for p in pergs:
+            r = models.Resposta.objects.filter(pergunta=p, hash_aluno=hash, atribuicao=atr)
+            if not r:
+                respL.append('')
+            elif p.tipo == 'A':  # alternativa
+                respL.append(r[0].alternativa)
+            else:    
+                respL.append(r[0].texto)
 
-			if p.tipo == 'A':  # alternativa 
-				alters = models.Alternativa.objects.filter(pergunta=p)
-				alterL = []
-				for a in alters:
-					alterL.append({'id' : a.id, 'texto' : a.texto,})
-				pergL.append({'id' : p.id, 'pergunta' : p.texto, 'alternativas' : alterL,})
-			else:
-				pergL.append({'id' : p.id, 'pergunta' : p.texto, })
+            if p.tipo == 'A':  # alternativa 
+                alters = models.Alternativa.objects.filter(pergunta=p)
+                alterL = []
+                for a in alters:
+                    alterL.append({'id' : a.id, 'texto' : a.texto,})
+                pergL.append({'id' : p.id, 'pergunta' : p.texto, 'alternativas' : alterL,})
+            else:
+                pergL.append({'id' : p.id, 'pergunta' : p.texto, })
 
-		return render_to_response('sad/answer_course.html',
-								  { 'ano': ano , 
-									'semestre': semestre ,
-									'disciplina': disciplina,
-									'turma': turma,
-									'perguntas': pergL,
-									'respostas': respL,
-									'nome': d.nome,
-									} 
-								  )
+        return render_to_response('sad/answer_course.html',
+                                  { 'ano': ano , 
+                                    'semestre': semestre ,
+                                    'disciplina': disciplina,
+                                    'turma': turma,
+                                    'perguntas': pergL,
+                                    'respostas': respL,
+                                    'nome': d.nome,
+                                    } 
+                                  )
     except:
-    	return render_to_response('sad/consistency_error.html', {} )
+        return render_to_response('sad/consistency_error.html', {} )
 
 def commit_answer_course(request, ano, semestre, disciplina, turma):
     if request.GET:  # se houver respostas
