@@ -188,9 +188,11 @@ def get_matriculados(disc):
                 demail = re.compile(DRE_EMAIL)
                 n = re.search(demail, email)
                 if n is None:
+					# Modo que usa nossa inteligencia 
                     print  "Digite a primeira letra sem o acento: " +  i[1]
                     email = raw_input()
-                    email = 'e'
+					# Modo trator
+                    #email = 'e'
                 email = email.lower()
                 email = email + ra + '@dac.unicamp.br'
 
