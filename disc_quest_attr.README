@@ -1,0 +1,11 @@
+Passos para executar o disc_quest_attr.py
+
+* Entre no diretório onde tem o disc_quest_attr.py.
+* Digite no shell:
+export DJANGO_SETTINGS_MODULE="caco.settings"
+export PYTHONPATH+="$PWD"
+python disc_quest_attr.py
+
+Requisitos:
+* biblioteca mechanize instalada
+* base de dados syncada (rode "python manage.py syncdb")

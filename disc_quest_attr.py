@@ -33,7 +33,7 @@ praticas = [
 	'MC715', 
 ]
 
-teorico-praticas = [
+teorico_praticas = [
 	'MC102', 
 	'MC202', 
 	'MC326', 
@@ -102,18 +102,25 @@ teoricas.extend([
 ])
 
 def main():
-	from models import Disciplina, Questionario
+	from caco.sad.models import Disciplina, Questionario
 
 	# montando um dicionário das matérias com o tipo de questionário delas
 	discs = {}
-	for tipo in ('teoricas', 'praticas', 'teorico-praticas', 'estagio', 'topicos'):
-		for sigla in eval(i): # pega a lista com o nome da string
+	for tipo in ('teoricas', 'praticas', 'teorico_praticas', 'estagio', 'topicos'):
+		for sigla in eval(tipo): # pega a lista com o nome da string
 			discs[sigla] = tipo  # e.g discs['MC102'] = 'teorico-praticas'
 	
 	# adiciona o questionário correto para todas as matérias
 	for sigla in discs:
-		d = Disciplina.objects.filter(sigla=sigla)
-		d.questionario = Questionario.objects.filter(tipo=discs[sigla])
+		print 'Incluindo a disciplina %s no questionario %s' % (sigla, discs[sigla])
+		d = Disciplina.objects.filter(sigla=sigla)[0]
+		try:
+			q = Questionario.objects.filter(tipo=discs[sigla])[0]
+		except:
+			# no existe esto questionario!!!
+			q = Questionario(tipo=discs[sigla], texto=discs[sigla], semestre='2008-08-01')
+			q.save()
+		d.questionario = q
 		d.save()
 
 	# done!
