@@ -63,13 +63,14 @@ def all_to_answer(request, ano, semestre, respondido = False, ultima_resp = ''):
 def answer_course(request, ano, semestre, disciplina, turma):
     discs = models.Disciplina.objects.filter(sigla=disciplina)
     try:
+        aluno = models.Aluno.objects.filter(username=request.user.username)[0]
         d = discs[0]  # sera lidado uma disciplina por vez no questionario
         pergs = models.Pergunta.objects.filter(questionario=d.questionario)
         pergL = []
         respL = []
         hash = new(request.user.username).hexdigest()
         atr = models.Atribuicao.objects.filter(disciplina=disciplina,
-                turma=turma, semestre=dbSemester(semestre,ano))[0]
+                turma=turma, semestre=dbSemester(semestre,ano), aluno=aluno)[0]
         for p in pergs:
             r = models.Resposta.objects.filter(pergunta=p, hash_aluno=hash, atribuicao=atr)
             if not r:
