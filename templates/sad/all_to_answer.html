@@ -6,10 +6,10 @@
 {% endif %}
 
 {% if atr_resp %}
-    Disciplinas já respondidas (Atenção: se você quiser responder novamente a uma disciplina as respostas anteriores serão apagadas):
+    Disciplinas já respondidas (Se você deseja responder alguma disciplina novamente entre em contato conosco pelo e-mail gestao@caco.ic.unicamp.br):
     <ul>
         {% for d in atr_resp %}
-        <li><a href="/gda/IC/{{ano}}s{{semestre}}/{{d}}{{turma}}/answer/">{{d}}{{ turma }}</a></li>
+        <li>{{d}}{{ turma }}</li>
         {% endfor %}
     </ul>
 {% endif %}
