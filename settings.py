@@ -5,14 +5,15 @@ TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
  	  ('Gustavo F. Padovan', 'gustavo@las.ic.unicamp.br'),
+      ('Gustavo S. Scalet', 'gut@las.ic.unicamp.br'),
 )
 
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_NAME = 'sad'             # Or path to database file if using sqlite3.
-DATABASE_USER = 'root'             # Not used with sqlite3.
-DATABASE_PASSWORD = 'senh4'         # Not used with sqlite3.
+DATABASE_USER = 'gda'             # Not used with sqlite3.
+DATABASE_PASSWORD = 'Senha34CA'         # Not used with sqlite3.
 DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
@@ -69,7 +70,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "/home/pao/projects/caco-svn/trunk/templates",
+    "/home/pao/sad-fenix/templates",
 )
 
 INSTALLED_APPS = (
