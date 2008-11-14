@@ -71,6 +71,10 @@ def answer_course(request, ano, semestre, disciplina, turma):
         hash = new(request.user.username).hexdigest()
         atr = models.Atribuicao.objects.filter(disciplina=disciplina,
                 turma=turma, semestre=dbSemester(semestre,ano), aluno=aluno)[0]
+
+        if models.Resposta.objects.filter(hash_aluno=hash, atribuicao=atr):
+        	return render_to_response('sad/consistency_error.html', {} )
+
         for p in pergs:
             r = models.Resposta.objects.filter(pergunta=p, hash_aluno=hash, atribuicao=atr)
             if not r:
