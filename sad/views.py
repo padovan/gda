@@ -47,6 +47,7 @@ def all_to_answer(request, ano, semestre, respondido = False, ultima_resp = ''):
         except:
             # provavelmente o aluno nao esta fazendo nenhuma discplina
             atribuicao = []
+            atr_resp = []
         return render_to_response('sad/all_to_answer.html', 
                                   { 'ano': ano , 
                                     'semestre': semestre ,
