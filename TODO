@@ -4,6 +4,8 @@ General:
 
 * melhorar as expressões regulares do parser
 
+* Migrar pra git
+
 
 Features:
 * Suporte para disciplina com dois ou mais professores.
