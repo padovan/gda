@@ -1,0 +1,20 @@
+"O professor demonstrou domínio do conteúdo da disciplina?" # (não,parcialmente,sim)
+"O professor preparava as aulas com antecedência?" # (não,parcialmente,sim)
+"O professor se manifestou interessado pelo progresso dos alunos?" # (não,parcialmente,sim)
+"O professor se mostrou motivado a ministrar a disciplina?" # (não,parcialmente,sim)
+"Qual a disponibilidade das referências bibliográficas para a disciplina nas bibliotecas da universidade?" # (nenhuma,pouca,razoável,alta)
+"A bibliografia indicada foi suficiente para o aprendizado da disciplina? # (não,parcialmente,sim)
+"Você indicaria alguma outra referência bibliográfica além da que foi sugerida para esta disciplina? (esta pergunta é opcional)" $
+"Havia disponibilidade de computadores,programas,impressões,espaço em disco, e materiais necessários para a realização da disciplina?" # (não,parcialmente,sim)
+"O conteúdo abordado pela disciplina foi avaliado por completo?" # (não,parcialmente,sim)
+"A avaliação foi coerente com o conteúdo ministrado nas aulas?" # (não,parcialmente,sim)
+"Os projetos propostos foram bem definidos?" # (não,parcialmente,sim)
+"Além dos projetos propostos, houve liberdade para explorar outras idéias?" # (não,parcialmente,sim)
+"O(s) projeto(s) foi/foram coerentes com a parte teórica?" # (não,parcialmente,sim)
+"Os projetos foram desafiadores?" # (não,parcialmente,sim)
+"Comente sobre os pré-requisitos. Foram adequados? Faltaram pré-requisitos? Algum pré-requisito não foi necessário?" $
+"Comente sobre a dificuldade da disciplina e o tempo demandado pela mesma. Foi adequado? Foi suficiente? Permitiu que você realizasse suas outras atividades normalmento? Foi muito difícil ou muito fácil? O número de créditos foi adequado?" $
+"Você se sente apto a aplicar os conhecimentos adquiridos nesta disciplina?." # (não,parcialmente,sim)
+"O PED ou PAD se mostrou interessado e preparado?" $
+"Dê uma nota de 1 a 10 para o professor." # (1,2,3,4,5,6,7,8,9,10)
+"Espaço para comentários gerais sobre a disciplina e sobre o questionário." $
