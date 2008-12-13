@@ -33,7 +33,7 @@ praticas = [
 	'MC715', 
 ]
 
-teorico_praticas = [
+teoricas_praticas = [
 	'MC102', 
 	'MC202', 
 	'MC326', 
