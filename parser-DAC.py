@@ -255,7 +255,6 @@ BASE_SITE = "wget http://www.dac.unicamp.br/sistemas/horarios/pos/P" \
     + SEMESTRE + "S/"
 
 ld = get_disc_pos()
-print ld
 for d in ld:
     get_matriculados(d)
 ## fim POS #   
