@@ -9,7 +9,7 @@ Licença: GPLv3 ou mais recent
 # Código feito para >=python2.5
 
 def main(argv = [__name__,]):
-	from caco.sad.models import Questionario, Pergunta
+	from caco.sad.models import Questionario, Pergunta, Alternativa
 	from os import path
 
 	for tipo in ['estagio','praticas','teoricas','teoricas_praticas']:
@@ -45,8 +45,10 @@ def main(argv = [__name__,]):
 				print "\tQuestão %d/%d já era cadastrada!" % (content.index(question), len(content))
 			except:
 				# no existe esta pregunta!!!
-				p = Pergunta(texto=text,tipo=question_type,questionario=q)
-				p.save()
+				p = Pergunta(texto=text,tipo=question_type)
+				p.save()  # pra adicionar um n:n precisa ter a key antes
+				p.questionario.add(q)
+				p.save()  # agora salva com o questionário
 				print "\tCadastrado questão %d/%d" % (content.index(question), len(content))
 			# opa, sendo alternativa tem mais coisa...
 			if question_type == 'A':
