@@ -106,7 +106,7 @@ def main():
 
 	# montando um dicionário das matérias com o tipo de questionário delas
 	discs = {}
-	for tipo in ('teoricas', 'praticas', 'teorico_praticas', 'estagio', 'topicos'):
+	for tipo in ('teoricas', 'praticas', 'teoricas_praticas', 'estagio', 'topicos'):
 		for sigla in eval(tipo): # pega a lista com o nome da string
 			discs[sigla] = tipo  # e.g discs['MC102'] = 'teorico_praticas'
 	
