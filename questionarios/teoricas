@@ -4,7 +4,7 @@
 "O professor se mostrou motivado a ministrar a disciplina? Comente." $
 "Qual a disponibilidade das referências bibliográficas para a disciplina nas bibliotecas da universidade?" # (nenhuma,pouca,razoável,alta)
 "A bibliografia indicada foi suficiente para o aprendizado da disciplina? # (não,parcialmente,sim)
-"Você indicaria alguma outra referência bibliográfica além da que foi sugerida para esta disciplina? (esta pergunta é opcional)" $
+"Você indicaria alguma outra referência bibliográfica além da que foi sugerida para esta disciplina?" $
 "Quanto do conteúdo abordado pela disciplina foi avaliado?" # (nada,pouco,muito,todo)
 "A avaliação foi coerente com o conteúdo ministrado nas aulas?" # (não,parcialmente,sim)
 "Comente sobre a dificuldade da disciplina e o tempo demandado pela mesma. Foi adequado? Foi suficiente? Permitiu que você realizasse suas outras atividades normalmento? Foi muito difícil ou muito fácil? O número de créditos foi adequado?" $

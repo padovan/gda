@@ -4,7 +4,7 @@
 "O professor se mostrou motivado a ministrar a disciplina?" # (não,parcialmente,sim)
 "Qual a disponibilidade das referências bibliográficas para a disciplina nas bibliotecas da universidade?" # (nenhuma,pouca,razoável,alta)
 "A bibliografia indicada foi suficiente para o aprendizado da disciplina? # (não,parcialmente,sim)
-"Você indicaria alguma outra referência bibliográfica além da que foi sugerida para esta disciplina? (esta pergunta é opcional)" $
+"Você indicaria alguma outra referência bibliográfica além da que foi sugerida para esta disciplina?" $
 "Havia disponibilidade de computadores,programas,impressões,espaço em disco, e materiais necessários para a realização da disciplina?" # (não,parcialmente,sim)
 "O conteúdo abordado pela disciplina foi avaliado por completo?" # (não,parcialmente,sim)
 "A avaliação foi coerente com o conteúdo ministrado nas aulas?" # (não,parcialmente,sim)
