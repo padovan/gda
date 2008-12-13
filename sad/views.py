@@ -73,7 +73,7 @@ def answer_course(request, ano, semestre, disciplina, turma):
                 turma=turma, semestre=dbSemester(semestre,ano), aluno=aluno)[0]
 
         if models.Resposta.objects.filter(hash_aluno=hash, atribuicao=atr):
-        	return render_to_response('sad/consistency_error.html', {} )
+            return render_to_response('sad/consistency_error.html', {} )
 
         for p in pergs:
             r = models.Resposta.objects.filter(pergunta=p, hash_aluno=hash, atribuicao=atr)
@@ -110,22 +110,34 @@ def commit_answer_course(request, ano, semestre, disciplina, turma):
     if request.GET:  # se houver respostas
         atribuicao = models.Atribuicao.objects.filter(disciplina=disciplina,
                 turma=turma, semestre=dbSemester(semestre,ano))[0]
-        for resp in request.GET:
-            hash = new(request.user.username).hexdigest()
+        hash = new(request.user.username).hexdigest()
+        print sorted(request.GET)
+        for resp in sorted(request.GET):
             if resp.startswith('pa'):  # alternativas
                 p_id = resp.replace('pa','')
                 # FIXME gambiarra pra interface admin
                 # se o texto não existir a interface capota.
                 text = '' 
+                perg = models.Pergunta.objects.filter(id=p_id)[0]
                 alter = models.Alternativa.objects.filter(id=request.GET[resp])[0]
+                r = models.Resposta(pergunta=perg, texto=text, alternativa=alter, 
+                        hash_aluno=hash, atribuicao=atribuicao)
+                r.save()
             else:  # dissertativa
                 p_id = resp.replace('pd','')
                 text = request.GET[resp]
-                alter = None
-            perg = models.Pergunta.objects.filter(id=p_id)[0]
-            r = models.Resposta(pergunta=perg, texto=text, alternativa=alter,
-                    hash_aluno=hash, atribuicao=atribuicao)
-            r.save()
+                perg = models.Pergunta.objects.filter(id=p_id)[0]
+                r = models.Resposta.objects.filter(pergunta = perg, 
+                        atribuicao=atribuicao, hash_aluno = hash)
+                if r:
+                    r = r[0]
+                    r.texto = text
+                    r.save()  
+                else:
+                    alter = None
+                    r = models.Resposta(pergunta=perg, texto=text, alternativa=alter, 
+                            hash_aluno=hash, atribuicao=atribuicao)
+                    r.save()
         return all_to_answer(request, ano, semestre, True, disciplina+turma)
     else:
         return render_to_response('sad/consistency_error.html', {} )

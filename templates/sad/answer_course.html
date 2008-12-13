@@ -4,14 +4,19 @@
     <form method='GET' action='/gda/IC/{{ano}}s{{semestre}}/{{disciplina}}{{turma}}/commit/'
         {% for p in perguntas %}
             <div class="entry">
-                <p><b> {{ p.pergunta }}</b></p>
-                {% if p.alternativas %}<!-- Alternativa -->
+				<b>{{ p.pergunta }}</b><br />
+                {% if p.alternativas %}
                     {% for a in p.alternativas %}
                         <input type='radio' name='pa{{ p.id }}' value='{{ a.id }}'> {{ a.texto }}
                     {% endfor %}
-                {% else %}<!-- Dissertativa -->
-                    <textarea cols='40' rows='3' name='pd{{ p.id }}'></textarea>
-                    {% endif %}
+                    <br />
+                    <br />
+                    Comente (opcional):
+                    <br />
+
+                {% endif %}
+
+                <textarea cols='40' rows='3' name='pd{{ p.id }}'></textarea>
                 <br>&nbsp;
                 <p class="post"></p>
         </div>
