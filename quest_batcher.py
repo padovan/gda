@@ -39,6 +39,8 @@ def main(argv = [__name__,]):
 			else:
 				print "Deu pau aqui!!! Não casou dissertativo ou alternativa: %s" % question
 				return
+			# removendo as aspas duplas da pergunta
+			text = text.split('"')[1]
 			# cria a pergunta, se ainda não existir
 			try:
 				p = Pergunta.objects.filter(texto=text,tipo=question_type,questionario=q)[0]
