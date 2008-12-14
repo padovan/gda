@@ -1,14 +1,17 @@
 General:
 * parsear a tabela de e-mails alternativos  do alunos da pós que o Rodolfo
-* mandou e adicionar no arquivo descrito acima
 
-* melhorar as expressões regulares do parser
+* melhorar as expressões regulares do parser-DAC
+
+* Juntar todos os scripts de manipulação num só pra organizar melhorar a administração do gda
+
+* Arrumar o problema com os a primeira letra do nome acentuada no parser-DAC.py
 
 
 Features:
 * Suporte para disciplina com dois ou mais professores.
 
-* Suporte para questionário aléatório. Por exemplo, questionário sobre a
+* Suporte para questionário aléatorio. Por exemplo, questionário sobre a
 infraestrutura do instituto ou opiniões diversas.
 
 * Remover todas as gambiarras que ficaram no código.
@@ -16,12 +19,12 @@ infraestrutura do instituto ou opiniões diversas.
 * Possibilidade de ordenar as perguntas de um questionário,
 atualmente ele exibe na ordem de inserção no banco.
 
-* Um questionário pode conter outros questionário. Para facilitar a construção 
-de questionário. ( talvez criar uma classe subquestionário, ou nem precisemos disso)
+* Um questionário pode conter outros questionário para facilitar a construção 
+de questionários. ( talvez criar uma classe subquestionário, ou nem precisemos disso)
 
 
 Interface de usuário:
-* Manter exibido as disciplinas respondidas, permitindo alteração das respostas
+* Exibir as disciplinas respondidas, permitindo alteração das respostas
 na atual atribuição 
 
 * Melhorar o formulário de resposta. (permitir o usuário salvar parcialmente
