@@ -150,7 +150,7 @@ def home(request):
         return render_to_response('sad/home.html', {'error' : False,})
         
 
-def login_auth(request):
+def login_auth(request, a):
     try:
         #if request.user.is_
         username = request.POST['username']
