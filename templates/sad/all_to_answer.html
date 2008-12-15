@@ -6,13 +6,15 @@
 {% endif %}
 
 {% if atr_resp %}
-    Disciplinas já respondidas (Se você deseja responder alguma disciplina novamente entre em contato conosco pelo e-mail gestao@caco.ic.unicamp.br):
+    Disciplinas já respondidas: 
     <ul>
         {% for d in atr_resp %}
         <li>{{d}}{{ turma }}</li>
         {% endfor %}
     </ul>
-{% endif %}
+	{% endif %}
+	
+	Se você deseja responder alguma disciplina novamente entre em contato conosco pelo e-mail gestao@caco.ic.unicamp.br enviando seu login no sistema do GDA para podermos reinicializar o formulário pra você.
 
 {% if atribuicao %}
     Disciplinas não repondidas:
