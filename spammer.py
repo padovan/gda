@@ -9,12 +9,19 @@ Licença: GPLv3 ou mais recente
 spamMsg = u"""
 Olá %(nome)s,
 
-Gostaríamos de informar que o seu usuário é: "%(user)s" com senha "%(pass)s" (sem as aspas)
+Gostaríamos de informar que o seu usuário no sistema do GDA é: "%(user)s" com senha "%(pass)s" (sem as aspas) e para acessar o GDA acesse:
 
-Você pode responder os questionários das seguintes disciplinas:
+	www.caco.ic.unicamp.br/gda
+
+Você poderá responder os questionários das seguintes disciplinas:
 %(discs)s
 
+Infelizemente nosso sistema não permite ainda que as respostas sejam salvas parcialmente. Portanto uma vez que você começou a responder o questionário faça o até o fim. Pedimos desculpa por isso e estamos trabalhando para que no semestre que vem isso não aconteça.
+
 Obrigado por contribuir
+
+CACo - Centro Acadêmico da Computação
+gestao@caco.ic.unicamp.br | www.caco.ic.unicamp,br
 """
 
 tmpFile = u'/tmp/gdaLogin'
