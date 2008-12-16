@@ -16,7 +16,7 @@ Gostaríamos de informar que o seu usuário no sistema do GDA é: "%(user)s" com
 Você poderá responder os questionários das seguintes disciplinas:
 %(discs)s
 
-Infelizemente nosso sistema não permite ainda que as respostas sejam salvas parcialmente. Portanto uma vez que você começou a responder o questionário faça o até o fim. Pedimos desculpa por isso e estamos trabalhando para que no semestre que vem isso não aconteça.
+Infelizmente nosso sistema não permite ainda que as respostas sejam salvas parcialmente. Portanto uma vez que você começou a responder o questionário faça o até o fim. Pedimos desculpa por isso e estamos trabalhando para que no semestre que vem isso não aconteça.
 
 Obrigado por contribuir
 
