@@ -24,7 +24,6 @@ CACo - Centro Acadêmico da Computação
 gestao@caco.ic.unicamp.br | www.caco.ic.unicamp,br
 """
 
-tmpFile = u'/tmp/gdaLogin'
 subjText = u'Login do GDA'
 
 def main():
@@ -36,6 +35,7 @@ def main():
 
 	spamFill = {}
 	for n, ra in enumerate(alunos):
+		tmpFile = u'/tmp/ra[0]'
 		# pegando o aluno
 		aluno = Aluno.objects.filter(username=ra[0])[0]
 		# pegando o primeiro nome
@@ -71,7 +71,7 @@ def main():
 		time.sleep(0.1)  # sem flood né
 
 		# remove o arquivo
-		os.remove(tmpFile)	
+		#os.remove(tmpFile)	
 
 if __name__ == "__main__":
 	main()
