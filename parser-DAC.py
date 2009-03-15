@@ -12,7 +12,7 @@ from sha import new
 import string
 from random import choice, random
 
-from caco.sad.models import *
+from sad.models import *
 
 # TODO: 1. melhorar as espressões regulares
 

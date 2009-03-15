@@ -28,7 +28,7 @@ subjText = u'Login do GDA'
 
 def main():
 	import os, re, time
-	from caco.sad.models import Aluno, Atribuicao
+	from sad.models import Aluno, Atribuicao
 
 	alunos = [i.strip().split(' ') for i in open('alunos.passwd').readlines()]
 	total = len(alunos)

@@ -102,7 +102,7 @@ teoricas.extend([
 ])
 
 def main():
-	from caco.sad.models import Disciplina, Questionario
+	from sad.models import Disciplina, Questionario
 
 	# montando um dicionário das matérias com o tipo de questionário delas
 	discs = {}

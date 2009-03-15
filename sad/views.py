@@ -4,7 +4,7 @@
 from django.contrib import auth
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
-from caco.sad import models
+from sad import models
 from gdadefs import *
 from md5 import new
 

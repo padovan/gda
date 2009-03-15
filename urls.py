@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 from django.contrib.auth.views import login, logout
-from caco.sad import views
+from sad import views
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin

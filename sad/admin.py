@@ -1,4 +1,4 @@
-from caco.sad.models import *
+from sad.models import *
 from django.contrib import admin
 
 class ProfessorAdmin(admin.ModelAdmin):
