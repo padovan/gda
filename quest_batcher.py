@@ -9,7 +9,7 @@ Licença: GPLv3 ou mais recent
 # Código feito para >=python2.5
 
 def main(argv = [__name__,]):
-	from caco.sad.models import Questionario, Pergunta, Alternativa
+	from sad.models import Questionario, Pergunta, Alternativa
 	from os import path
 
 	for tipo in ['estagio','praticas','teoricas','teoricas_praticas']:
