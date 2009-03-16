@@ -35,7 +35,7 @@ def main():
 
 	spamFill = {}
 	for n, ra in enumerate(alunos):
-		tmpFile = u'/tmp/ra[0]'
+		tmpFile = u'/tmp/' + ra[0]
 		# pegando o aluno
 		aluno = Aluno.objects.filter(username=ra[0])[0]
 		# pegando o primeiro nome
@@ -62,11 +62,12 @@ def main():
 			'subj' : subjText,
 			'fn' : tmpFile
 		}
-		print u'Enviando spam %d/%d do usuário %s (%s)' % (n, total, ra[0], nome)
+		print u'#Enviando spam %d/%d do usuário %s (%s)' % (n, total, ra[0], nome)
 		# Modo 4real
 		#os.system('mutt %(to)s -s "%(subj)s" < %(fn)s' % sendInfo)
 		# Modo dry-run
 		print 'mutt "%(to)s" -s "%(subj)s" < %(fn)s' % sendInfo
+		print 'sleep 0.1'
 		# end Modo
 		time.sleep(0.1)  # sem flood né
 
