@@ -17,9 +17,9 @@ urlpatterns = patterns('',
                        # Uncomment the next line to enable the admin:
                        (r'^gda/admin/(.*)', admin.site.root),
 
-					   (r'^gda/$', views.home),	   
-					   (r'^gda/(.*/)?auth/$', views.login_auth),	   
-					   (r'^gda/logout/$', views.logout),	   
+                       (r'^gda/$', views.home),
+                       (r'^gda/(.*/)?auth/$', views.login_auth),
+                       (r'^gda/logout/$', views.logout),
                        #(r'^gda/[Ii][Cc]/$', views.show_all_semesters),
                        #(r'^gda/[Ii][Cc]/(?P<ano>\d+)[sS](?P<semestre>\d)/$', views.show_all_courses),
                        #(r'^gda/[Ii][Cc]/(?P<ano>\d+)[sS](?P<semestre>\d)/(?P<disciplina>[A-Z][A-Z]\d+)(?P<turma>[A-Z1-9#])/$', views.show_all_answers),
