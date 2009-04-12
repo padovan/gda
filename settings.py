@@ -7,8 +7,8 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
- 	  ('Gustavo F. Padovan', 'gustavo@las.ic.unicamp.br'),
-      ('Gustavo S. Scalet', 'gut@las.ic.unicamp.br'),
+    ('Gustavo F. Padovan', 'gustavo@las.ic.unicamp.br'),
+    ('Gustavo S. Scalet', 'gut@las.ic.unicamp.br'),
 )
 
 MANAGERS = ADMINS
